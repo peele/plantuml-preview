@@ -1,0 +1,27 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+// atom-pane-container atom-pane .item-views {
+//   overflow: auto;
+//   .plantuml-preview {
+//     padding-top: 0;
+//     overflow: auto;
+//   }
+// }
+
+.plantuml-control {
+  font-size: @input-font-size;
+  font-family: @font-family;
+  text-align: center;
+  padding: @component-padding;
+  input[type="checkbox"] {
+    height: @input-font-size;
+    width: @input-font-size;
+  }
+  label {
+    padding-left: @component-padding;
+  }
+}
