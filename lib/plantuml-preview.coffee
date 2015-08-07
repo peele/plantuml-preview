@@ -9,8 +9,13 @@ openURI = (uriToOpen) ->
   PlantumlPreviewView ?= require './plantuml-preview-view'
   new PlantumlPreviewView(editorId: pathname.substring(1))
 
-createView = ->
+toggle = ->
+  PlantumlPreviewView ?= require './plantuml-preview-view'
   editor = atom.workspace.getActivePaneItem()
+  if editor instanceof PlantumlPreviewView
+    atom.workspace.destroyActivePaneItem()
+    return
+
   if editor and fs.isFileSync(editor.getPath())
     options =
       activatePane: false
@@ -33,7 +38,7 @@ module.exports =
       default: false
 
   activate: ->
-    atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => createView()
+    atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
     @openerDisposable = atom.workspace.addOpener(openURI)
 
   deactivate: ->
