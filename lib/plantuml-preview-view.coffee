@@ -44,9 +44,13 @@ class PlantumlPreviewView extends ScrollView
         imgTag.show
 
       command = atom.config.get 'plantuml-preview.java'
-      args = ['-jar', atom.config.get('plantuml-preview.jarLocation')]
-      args = args.concat atom.config.get('plantuml-preview.additionalArgs').split(/\s+/)
-      args = args.concat filePath
+      args = [
+        '-jar',
+        atom.config.get('plantuml-preview.jarLocation'),
+        '-charset',
+        @editor.getEncoding(),
+        filePath
+      ]
       new BufferedProcess {command, args, exit}
 
   getPath: ->

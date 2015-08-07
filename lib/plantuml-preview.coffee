@@ -28,9 +28,6 @@ module.exports =
     jarLocation:
       type: 'string'
       default: 'plantuml.jar'
-    additionalArgs:
-      type: 'string'
-      default: '-charset utf8'
     zoomToFit:
       type: 'boolean'
       default: false
