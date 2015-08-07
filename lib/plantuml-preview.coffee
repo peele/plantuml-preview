@@ -1,24 +1,24 @@
 fs = require 'fs-plus'
+url = require 'url'
 PlantumlPreviewView = null
 
 openURI = (uriToOpen) ->
-  pathname = uriToOpen.replace 'plantuml-preview://', ''
-  return unless uriToOpen.substr(0, 19) is 'plantuml-preview://'
+  {protocol, host, pathname} = url.parse uriToOpen
+  return unless protocol is 'plantuml-preview:'
 
   PlantumlPreviewView ?= require './plantuml-preview-view'
-  new PlantumlPreviewView(filePath: pathname)
+  new PlantumlPreviewView(editorId: pathname.substring(1))
 
 createView = ->
-  paneItem = atom.workspace.getActivePaneItem()
-  filePath = paneItem.getPath()
-  if paneItem and fs.isFileSync(filePath)
+  editor = atom.workspace.getActivePaneItem()
+  if editor and fs.isFileSync(editor.getPath())
     options =
       activatePane: false
       searchAllPanes: true
       split: 'right'
-    atom.workspace.open "plantuml-preview://#{filePath}", options
+    atom.workspace.open "plantuml-preview://editor/#{editor.id}", options
   else
-    console.warn "File (#{filePath}) does not exists"
+    console.warn "Editor has not been saved to file."
 
 module.exports =
   config:

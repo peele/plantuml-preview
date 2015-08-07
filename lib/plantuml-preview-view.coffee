@@ -10,6 +10,11 @@ setZoomAttr = (imgTag, zoom) ->
     imgTag.removeAttr 'height'
     imgTag.removeAttr 'width'
 
+editorForId = (editorId) ->
+  for editor in atom.workspace.getTextEditors()
+    return editor if editor.id?.toString() is editorId.toString()
+  null
+
 module.exports =
 class PlantumlPreviewView extends ScrollView
   @content: ->
@@ -20,32 +25,41 @@ class PlantumlPreviewView extends ScrollView
       @div class: 'plantuml-container', outlet: 'container', =>
         @img outlet: 'image'
 
-  constructor: ({@filePath}) ->
+  constructor: ({@editorId}) ->
     super
+    @editor = editorForId @editorId
 
   attached: ->
-    imgFile = @filePath.replace path.extname(@filePath), '.png'
-    setZoomAttr @image, atom.config.get('plantuml-preview.zoomToFit')
+    if @editor?
+      filePath = @editor.getPath()
+      imgFile = filePath.replace path.extname(filePath), '.png'
+      setZoomAttr @image, atom.config.get('plantuml-preview.zoomToFit')
 
-    imgTag = @image
-    @on 'change', '#zoomToFit', ->
-      setZoomAttr imgTag, @checked
+      imgTag = @image
+      @on 'change', '#zoomToFit', ->
+        setZoomAttr imgTag, @checked
 
-    exit = (code) ->
-      imgTag.attr 'src', "#{imgFile}?time=#{Date.now()}"
-      imgTag.show
+      exit = (code) ->
+        imgTag.attr 'src', "#{imgFile}?time=#{Date.now()}"
+        imgTag.show
 
-    command = atom.config.get 'plantuml-preview.java'
-    args = ['-jar', atom.config.get('plantuml-preview.jarLocation')]
-    args = args.concat atom.config.get('plantuml-preview.additionalArgs').split(/\s+/)
-    args = args.concat @filePath
-    new BufferedProcess {command, args, exit}
+      command = atom.config.get 'plantuml-preview.java'
+      args = ['-jar', atom.config.get('plantuml-preview.jarLocation')]
+      args = args.concat atom.config.get('plantuml-preview.additionalArgs').split(/\s+/)
+      args = args.concat filePath
+      new BufferedProcess {command, args, exit}
 
-  getPath: -> @filePath
+  getPath: ->
+    if @editor?
+      @editor.getPath()
 
-  getURI: -> @filePath
+  getURI: ->
+    if @editor?
+      @editor.getURI()
 
-  getTitle: -> "#{path.basename(@getPath())} Preview"
+  getTitle: ->
+    if @editor?
+      "#{@editor.getTitle()} Preview"
 
   onDidChangeTitle: ->
     new Disposable()
