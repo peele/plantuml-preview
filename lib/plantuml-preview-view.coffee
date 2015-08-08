@@ -1,6 +1,7 @@
 {$, ScrollView} = require 'atom-space-pen-views'
 {Disposable, CompositeDisposable, BufferedProcess} = require 'atom'
 path = require 'path'
+fs = require 'fs-plus'
 
 setZoomAttr = (imgTag, zoom) ->
   if zoom
@@ -35,6 +36,10 @@ class PlantumlPreviewView extends ScrollView
 
   attached: ->
     if @editor?
+      imgTag = @image
+      @on 'change', '#zoomToFit', ->
+        setZoomAttr imgTag, @checked
+
       saveHandler = =>
         @renderUml()
 
@@ -67,12 +72,16 @@ class PlantumlPreviewView extends ScrollView
     @image.removeAttr 'src'
 
     imgTag = @image
-    @on 'change', '#zoomToFit', ->
-      setZoomAttr imgTag, @checked
-
     exit = (code) ->
       imgTag.attr 'src', "#{imgFile}?time=#{Date.now()}"
       imgTag.show
+
+    if fs.isFileSync(filePath) and fs.isFileSync(imgFile)
+      fileStat = fs.statSync filePath
+      imgStat = fs.statSync imgFile
+      if imgStat.mtime > fileStat.mtime
+        exit(0)
+        return
 
     command = atom.config.get 'plantuml-preview.java'
     args = [
