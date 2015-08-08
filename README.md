@@ -1,5 +1,15 @@
-# plantuml-preview package
+# PlantUML Preview
+Atom package for using PlantUML to create png and display preview for the current text editor.
 
-A short description of your package.
+![plantuml-preview screenshot](https://raw.githubusercontent.com/peele/plantuml-preview/master/plantuml-preview.png)
 
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+## Features
+- Output png displayed in split pane
+- Update on save
+- Charset of the text editor will be passed to PlantUML
+- 'Zoom To Fit' option
+
+## Configuration
+- 'Jar Location': Path to PlantUML jar
+- 'Java': Command to execute java
+- 'Zoom To Fit': The initial setting for new preview panes
