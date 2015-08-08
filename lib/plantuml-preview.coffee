@@ -2,24 +2,48 @@ fs = require 'fs-plus'
 url = require 'url'
 PlantumlPreviewView = null
 
+uriForEditor = (editor) ->
+  "plantuml-preview://editor/#{editor.id}"
+
 isPlantumlPreviewView = (object) ->
   PlantumlPreviewView ?= require './plantuml-preview-view'
   object instanceof PlantumlPreviewView
 
+removePreviewForEditor = (editor) ->
+  uri = uriForEditor(editor)
+  console.log "removePreviewForEditor #{uri}"
+  previewPane = atom.workspace.paneForURI(uri)
+  console.log "  #{previewPane}"
+  if previewPane?
+    console.log "  removing pane"
+    previewPane.destroyItem(previewPane.itemForURI(uri))
+    true
+  else
+    false
+
+addPreviewForEditor = (editor) ->
+  uri = uriForEditor(editor)
+  console.log "addPreviewForEditor #{uri}"
+  previousActivePane = atom.workspace.getActivePane()
+  if editor and fs.isFileSync(editor.getPath())
+    options =
+      searchAllPanes: true
+      split: 'right'
+    atom.workspace.open(uri, options).done (plantumlPreviewView) ->
+      if isPlantumlPreviewView(plantumlPreviewView)
+        previousActivePane.activate()
+  else
+    console.warn "Editor has not been saved to file."
+
 toggle = ->
-  editor = atom.workspace.getActivePaneItem()
-  if isPlantumlPreviewView(editor)
+  if isPlantumlPreviewView(atom.workspace.getActivePaneItem())
     atom.workspace.destroyActivePaneItem()
     return
 
-  if editor and fs.isFileSync(editor.getPath())
-    options =
-      activatePane: false
-      searchAllPanes: true
-      split: 'right'
-    atom.workspace.open "plantuml-preview://editor/#{editor.id}", options
-  else
-    console.warn "Editor has not been saved to file."
+  editor = atom.workspace.getActiveTextEditor()
+  return unless editor?
+
+  addPreviewForEditor(editor) unless removePreviewForEditor(editor)
 
 module.exports =
   config:

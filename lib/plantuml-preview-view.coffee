@@ -59,7 +59,7 @@ class PlantumlPreviewView extends ScrollView
 
   getURI: ->
     if @editor?
-      @editor.getURI()
+      "plantuml-preview://editor/#{@editor.id}"
 
   getTitle: ->
     if @editor?
