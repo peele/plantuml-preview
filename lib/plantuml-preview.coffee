@@ -2,17 +2,13 @@ fs = require 'fs-plus'
 url = require 'url'
 PlantumlPreviewView = null
 
-openURI = (uriToOpen) ->
-  {protocol, host, pathname} = url.parse uriToOpen
-  return unless protocol is 'plantuml-preview:'
-
+isPlantumlPreviewView = (object) ->
   PlantumlPreviewView ?= require './plantuml-preview-view'
-  new PlantumlPreviewView(editorId: pathname.substring(1))
+  object instanceof PlantumlPreviewView
 
 toggle = ->
-  PlantumlPreviewView ?= require './plantuml-preview-view'
   editor = atom.workspace.getActivePaneItem()
-  if editor instanceof PlantumlPreviewView
+  if isPlantumlPreviewView(editor)
     atom.workspace.destroyActivePaneItem()
     return
 
@@ -39,7 +35,12 @@ module.exports =
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
-    @openerDisposable = atom.workspace.addOpener(openURI)
+    @openerDisposable = atom.workspace.addOpener (uriToOpen) ->
+      {protocol, host, pathname} = url.parse uriToOpen
+      return unless protocol is 'plantuml-preview:'
+
+      PlantumlPreviewView ?= require './plantuml-preview-view'
+      new PlantumlPreviewView(editorId: pathname.substring(1))
 
   deactivate: ->
     @openerDisposable.dispose()
