@@ -11,11 +11,8 @@ isPlantumlPreviewView = (object) ->
 
 removePreviewForEditor = (editor) ->
   uri = uriForEditor(editor)
-  console.log "removePreviewForEditor #{uri}"
   previewPane = atom.workspace.paneForURI(uri)
-  console.log "  #{previewPane}"
   if previewPane?
-    console.log "  removing pane"
     previewPane.destroyItem(previewPane.itemForURI(uri))
     true
   else
@@ -23,7 +20,6 @@ removePreviewForEditor = (editor) ->
 
 addPreviewForEditor = (editor) ->
   uri = uriForEditor(editor)
-  console.log "addPreviewForEditor #{uri}"
   previousActivePane = atom.workspace.getActivePane()
   if editor and fs.isFileSync(editor.getPath())
     options =

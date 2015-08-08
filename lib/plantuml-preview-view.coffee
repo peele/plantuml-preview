@@ -1,5 +1,5 @@
 {$, ScrollView} = require 'atom-space-pen-views'
-{Disposable, BufferedProcess} = require 'atom'
+{Disposable, CompositeDisposable, BufferedProcess} = require 'atom'
 path = require 'path'
 
 setZoomAttr = (imgTag, zoom) ->
@@ -28,30 +28,19 @@ class PlantumlPreviewView extends ScrollView
   constructor: ({@editorId}) ->
     super
     @editor = editorForId @editorId
+    @disposables = new CompositeDisposable
+
+  destroy: ->
+    @disposables.dispose()
 
   attached: ->
     if @editor?
-      filePath = @editor.getPath()
-      imgFile = filePath.replace path.extname(filePath), '.png'
-      setZoomAttr @image, atom.config.get('plantuml-preview.zoomToFit')
+      saveHandler = =>
+        @renderUml()
 
-      imgTag = @image
-      @on 'change', '#zoomToFit', ->
-        setZoomAttr imgTag, @checked
-
-      exit = (code) ->
-        imgTag.attr 'src', "#{imgFile}?time=#{Date.now()}"
-        imgTag.show
-
-      command = atom.config.get 'plantuml-preview.java'
-      args = [
-        '-jar',
-        atom.config.get('plantuml-preview.jarLocation'),
-        '-charset',
-        @editor.getEncoding(),
-        filePath
-      ]
-      new BufferedProcess {command, args, exit}
+      @disposables.add @editor.getBuffer().onDidSave ->
+        saveHandler()
+      @renderUml()
 
   getPath: ->
     if @editor?
@@ -70,3 +59,27 @@ class PlantumlPreviewView extends ScrollView
 
   onDidChangeModified: ->
     new Disposable()
+
+  renderUml: ->
+    filePath = @editor.getPath()
+    imgFile = filePath.replace path.extname(filePath), '.png'
+    setZoomAttr @image, atom.config.get('plantuml-preview.zoomToFit')
+    @image.removeAttr 'src'
+
+    imgTag = @image
+    @on 'change', '#zoomToFit', ->
+      setZoomAttr imgTag, @checked
+
+    exit = (code) ->
+      imgTag.attr 'src', "#{imgFile}?time=#{Date.now()}"
+      imgTag.show
+
+    command = atom.config.get 'plantuml-preview.java'
+    args = [
+      '-jar',
+      atom.config.get('plantuml-preview.jarLocation'),
+      '-charset',
+      @editor.getEncoding(),
+      filePath
+    ]
+    new BufferedProcess {command, args, exit}
