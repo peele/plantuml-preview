@@ -88,7 +88,11 @@ class PlantumlPreviewView extends ScrollView
       '-jar',
       atom.config.get('plantuml-preview.jarLocation'),
       '-charset',
-      @editor.getEncoding(),
-      filePath
+      @editor.getEncoding()
     ]
+    dotLocation = atom.config.get('plantuml-preview.dotLocation')
+    if dotLocation != ''
+      args.push '-graphvizdot'
+      args.push dotLocation
+    args.push filePath
     new BufferedProcess {command, args, exit}

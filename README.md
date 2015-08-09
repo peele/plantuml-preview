@@ -12,8 +12,9 @@ Sreenshot shown with: [language-plantuml](https://atom.io/packages/language-plan
 - 'Zoom To Fit' option
 
 ## Configuration
-- 'Jar Location': Path to PlantUML jar
-- 'Java': Command to execute java
+- 'Graphviz Dot Location': Path to dot executable
+- 'PlantUML Jar Location': Path to PlantUML jar
+- 'Java': Path to java executable
 - 'Zoom To Fit': The initial setting for new preview panes
 
 ## Possible Future Improvements
@@ -21,4 +22,3 @@ Sreenshot shown with: [language-plantuml](https://atom.io/packages/language-plan
 - Multipage handling
 - Copy preview image from pane
 - Support for additional output formats
-- Configuration for specifying dot location

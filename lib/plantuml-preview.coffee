@@ -47,8 +47,14 @@ module.exports =
       type: 'string'
       default: 'java'
     jarLocation:
+      title: 'PlantUML Jar Location'
       type: 'string'
       default: 'plantuml.jar'
+    dotLocation:
+      title: 'Graphviz Dot Location'
+      description: "If empty string, '-graphvizdot' argument will not be used."
+      type: 'string'
+      default: ''
     zoomToFit:
       type: 'boolean'
       default: false
