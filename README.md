@@ -10,6 +10,7 @@ Screenshot shown with: [language-plantuml](https://atom.io/packages/language-pla
 - Update on save
 - Charset of the text editor will be passed to PlantUML
 - 'Zoom To Fit' option
+- Supports multipage diagrams
 
 ## Configuration
 - 'Graphviz Dot Location': Path to dot executable
@@ -19,6 +20,5 @@ Screenshot shown with: [language-plantuml](https://atom.io/packages/language-pla
 
 ## Possible Future Improvements
 - Scaled zooming
-- Multipage handling
 - Copy preview image from pane
 - Support for additional output formats

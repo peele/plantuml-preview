@@ -3,14 +3,6 @@
 path = require 'path'
 fs = require 'fs-plus'
 
-setZoomAttr = (imgTag, zoom) ->
-  if zoom
-    imgTag.attr 'height', '100%'
-    imgTag.attr 'width', '100%'
-  else
-    imgTag.removeAttr 'height'
-    imgTag.removeAttr 'width'
-
 editorForId = (editorId) ->
   for editor in atom.workspace.getTextEditors()
     return editor if editor.id?.toString() is editorId.toString()
@@ -21,10 +13,9 @@ class PlantumlPreviewView extends ScrollView
   @content: ->
     @div class: 'plantuml-preview padded pane-item', tabindex: -1, =>
       @div class: 'plantuml-control', outlet: 'control', =>
-        @input id: 'zoomToFit', type: 'checkbox', checked: atom.config.get('plantuml-preview.zoomToFit'), outlet: 'zoomToFit'
+        @input id: 'zoomToFit', type: 'checkbox', outlet: 'zoomToFit'
         @label 'Zoom To Fit'
-      @div class: 'plantuml-container', outlet: 'container', =>
-        @img outlet: 'image'
+      @div class: 'plantuml-container', outlet: 'container'
 
   constructor: ({@editorId}) ->
     super
@@ -36,10 +27,11 @@ class PlantumlPreviewView extends ScrollView
 
   attached: ->
     if @editor?
-      setZoomAttr @image, atom.config.get('plantuml-preview.zoomToFit')
-      imgTag = @image
+      @zoomToFit.attr('checked', atom.config.get('plantuml-preview.zoomToFit'))
+      checkHandler = (checked) =>
+        @setZoomAttr(checked)
       @on 'change', '#zoomToFit', ->
-        setZoomAttr imgTag, @checked
+        checkHandler(@checked)
 
       saveHandler = =>
         @renderUml()
@@ -66,22 +58,56 @@ class PlantumlPreviewView extends ScrollView
   onDidChangeModified: ->
     new Disposable()
 
+  addImages: (imgFiles) ->
+    for file in imgFiles
+      image = "<img class=\"uml-image\" src=\"#{file}?time=#{Date.now()}\"/>"
+      @container.append image
+    @setZoomAttr(@zoomToFit.is(':checked'))
+    @container.show
+
+  removeImages: ->
+    @container.empty()
+
+  setZoomAttr: (checked) ->
+    if checked
+      @container.find('.uml-image').attr('height', '100%')
+      @container.find('.uml-image').attr('width', '100%')
+    else
+      @container.find('.uml-image').removeAttr('height')
+      @container.find('.uml-image').removeAttr('width')
+
   renderUml: ->
     filePath = @editor.getPath()
-    imgFile = filePath.replace path.extname(filePath), '.png'
-    @image.removeAttr 'src'
+    imgBase = filePath.replace path.extname(filePath), ''
 
-    imgTag = @image
-    exit = (code) ->
-      imgTag.attr 'src', "#{imgFile}?time=#{Date.now()}"
-      imgTag.show
+    imgFiles = [imgBase + '.png']
+    count = 1
+    for line in @editor.getText().split('\n')
+      if line.match ///^[\s]*(newpage)///i
+        countStr = count + ''
+        countStr = '000'.substring(countStr.length) + countStr
+        imgFiles.push "#{imgBase}_#{countStr}.png"
+        count++
 
-    if fs.isFileSync(filePath) and fs.isFileSync(imgFile)
-      fileStat = fs.statSync filePath
-      imgStat = fs.statSync imgFile
-      if imgStat.mtime > fileStat.mtime
-        exit(0)
+    upToDate = true
+    fileTime = fs.statSync(filePath).mtime
+    for image in imgFiles
+      if fs.isFileSync(image)
+        if fileTime > fs.statSync(image).mtime
+          upToDate = false
+          break
+      else
+        upToDate = false
+        break
+    if upToDate
+        @removeImages()
+        @addImages imgFiles
         return
+
+    exitHandler = (files) =>
+      @addImages(files)
+    exit = (code) ->
+      exitHandler imgFiles
 
     command = atom.config.get 'plantuml-preview.java'
     args = [
@@ -95,4 +121,6 @@ class PlantumlPreviewView extends ScrollView
       args.push '-graphvizdot'
       args.push dotLocation
     args.push filePath
+
+    @removeImages()
     new BufferedProcess {command, args, exit}

@@ -1,5 +1,6 @@
 # 0.2.1
 - Added config setting for Graphviz dot location
+- Support for displaying multipage uml diagrams
 
 # 0.1.1
 - Update README and project description
