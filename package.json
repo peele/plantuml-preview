@@ -2,7 +2,7 @@
   "name": "plantuml-preview",
   "main": "./lib/plantuml-preview",
   "version": "0.1.0",
-  "description": "Atom package for using PlantUML to create rendered png and display preview for the current text editor.",
+  "description": "Atom package for PlantUML integration. Configuration is favored over relance on PATH.",
   "keywords": [
     "plantuml",
     "uml",
