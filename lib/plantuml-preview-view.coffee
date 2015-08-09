@@ -36,6 +36,7 @@ class PlantumlPreviewView extends ScrollView
 
   attached: ->
     if @editor?
+      setZoomAttr @image, atom.config.get('plantuml-preview.zoomToFit')
       imgTag = @image
       @on 'change', '#zoomToFit', ->
         setZoomAttr imgTag, @checked
@@ -68,7 +69,6 @@ class PlantumlPreviewView extends ScrollView
   renderUml: ->
     filePath = @editor.getPath()
     imgFile = filePath.replace path.extname(filePath), '.png'
-    setZoomAttr @image, atom.config.get('plantuml-preview.zoomToFit')
     @image.removeAttr 'src'
 
     imgTag = @image
