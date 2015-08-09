@@ -3,7 +3,9 @@ Atom package for using [PlantUML](http://plantuml.com/index.html) to create rend
 
 ![plantuml-preview screenshot](https://raw.githubusercontent.com/peele/plantuml-preview/master/plantuml-preview.png)
 
-Screenshot shown with: [language-plantuml](https://atom.io/packages/language-plantuml), [nucleus-dark-ui](https://atom.io/themes/nucleus-dark-ui), [polaris-syntax](https://atom.io/themes/polaris-syntax), [minimap](https://atom.io/packages/minimap)
+![multipage screenshot](https://raw.githubusercontent.com/peele/plantuml-preview/master/multipage.png)
+
+Screenshots shown with: [language-plantuml](https://atom.io/packages/language-plantuml), [nucleus-dark-ui](https://atom.io/themes/nucleus-dark-ui), [polaris-syntax](https://atom.io/themes/polaris-syntax), [minimap](https://atom.io/packages/minimap)
 
 ## Features
 - Output png displayed in split pane
