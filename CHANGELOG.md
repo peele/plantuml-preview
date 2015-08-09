@@ -1,4 +1,4 @@
-# 0.2.1
+# 0.2.0
 - Added config setting for Graphviz dot location
 - Support for displaying multipage uml diagrams
 
