@@ -1,3 +1,6 @@
+# 0.3.1
+- Fix issue #2 - Preview does not scroll on windows.
+
 # 0.3.0
 - Handle filename provided with @startuml
 - Handle multiple @startuml/@enduml in single file

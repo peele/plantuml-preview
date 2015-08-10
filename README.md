@@ -1,5 +1,5 @@
 # PlantUML Preview
-Atom package for using [PlantUML](http://plantuml.com/index.html) to create rendered uml diagrams and display.
+Package for using [PlantUML](http://plantuml.com/index.html) to create rendered uml diagrams and display.
 
 ![plantuml-preview screenshot](https://raw.githubusercontent.com/peele/plantuml-preview/master/plantuml-preview.png)
 

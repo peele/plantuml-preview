@@ -2,7 +2,7 @@
   "name": "plantuml-preview",
   "main": "./lib/plantuml-preview",
   "version": "0.3.0",
-  "description": "Atom package for PlantUML integration. Configuration is favored over relance on PATH.",
+  "description": "Package for PlantUML integration. Configuration is favored over reliance on PATH.",
   "keywords": [
     "plantuml",
     "uml",
