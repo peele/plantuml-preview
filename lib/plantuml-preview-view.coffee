@@ -59,9 +59,11 @@ class PlantumlPreviewView extends ScrollView
     new Disposable()
 
   addImages: (imgFiles, time) ->
+    displayFilenames = atom.config.get('plantuml-preview.displayFilename')
     for file in imgFiles
-      image = "<img class=\"uml-image\" src=\"#{file}?time=#{time}\"/>"
-      @container.append image
+      if displayFilenames
+        @container.append("<div class=\"filename\">#{file}</div>")
+      @container.append("<img class=\"uml-image\" src=\"#{file}?time=#{time}\"/>")
     @setZoomAttr(@zoomToFit.is(':checked'))
     @container.show
 

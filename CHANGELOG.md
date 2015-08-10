@@ -1,3 +1,7 @@
+# 0.4.0
+- 'Zoom To Fit' default set to true
+- Added 'Display Filename Above UML Diagrams', default true
+
 # 0.3.1
 - Fix issue #2 - Preview does not scroll on windows.
 

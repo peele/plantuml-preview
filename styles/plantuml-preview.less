@@ -14,6 +14,7 @@ atom-pane-container atom-pane .item-views {
 .plantuml-control {
   font-size: @input-font-size;
   font-family: @font-family;
+  color: @text-color;
   text-align: center;
   padding: @component-padding;
   input[type="checkbox"] {
@@ -26,8 +27,14 @@ atom-pane-container atom-pane .item-views {
 }
 
 .plantuml-container {
+  .filename {
+    font-size: @input-font-size;
+    font-family: @font-family;
+    color: @text-color;
+    padding-bottom: @component-padding / 2;
+  }
   .uml-image {
     display: block;
-    padding-bottom: @component-padding;
+    padding-bottom: @component-padding * 1.5;
   }
 }

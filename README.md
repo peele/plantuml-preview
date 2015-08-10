@@ -15,6 +15,7 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 - Supports multipage diagrams
 
 ## Configuration
+- 'Display Filename Above UML Diagrams'
 - 'Graphviz Dot Location': Path to dot executable
 - 'PlantUML Jar Location': Path to PlantUML jar
 - 'Java': Path to java executable

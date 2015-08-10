@@ -58,6 +58,10 @@ module.exports =
     zoomToFit:
       type: 'boolean'
       default: true
+    displayFilename:
+      title: 'Display Filename Above UML Diagrams'
+      type: 'boolean'
+      default: true
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
