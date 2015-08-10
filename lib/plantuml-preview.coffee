@@ -57,7 +57,7 @@ module.exports =
       default: ''
     zoomToFit:
       type: 'boolean'
-      default: false
+      default: true
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
