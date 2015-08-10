@@ -1,7 +1,7 @@
 {
   "name": "plantuml-preview",
   "main": "./lib/plantuml-preview",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Package for PlantUML integration. Configuration is favored over reliance on PATH.",
   "keywords": [
     "plantuml",
