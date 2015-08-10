@@ -58,9 +58,9 @@ class PlantumlPreviewView extends ScrollView
   onDidChangeModified: ->
     new Disposable()
 
-  addImages: (imgFiles) ->
+  addImages: (imgFiles, time) ->
     for file in imgFiles
-      image = "<img class=\"uml-image\" src=\"#{file}?time=#{Date.now()}\"/>"
+      image = "<img class=\"uml-image\" src=\"#{file}?time=#{time}\"/>"
       @container.append image
     @setZoomAttr(@zoomToFit.is(':checked'))
     @container.show
@@ -76,18 +76,58 @@ class PlantumlPreviewView extends ScrollView
       @container.find('.uml-image').removeAttr('height')
       @container.find('.uml-image').removeAttr('width')
 
+  getFilenames: (directory, defaultName, contents) ->
+    # console.log "contents:\n#{contents}\n"
+    filenames = []
+    defaultFilename = path.join(directory, defaultName)
+    defaultCount = 0
+    for uml in contents.split(///@enduml///i)
+      if uml.trim() == ''
+        continue
+
+      currentFilename = path.join(directory, defaultName)
+      currentExtension = '.png'
+      pageCount = 1
+
+      filename = uml.match ///@startuml([^\n]*)\n///i
+      if filename?
+        filename = filename[1].trim()
+        if filename != ''
+          if path.extname(filename)
+            currentExtension = path.extname filename
+          else
+            currentExtension = '.png'
+          currentFilename = path.join(directory, filename.replace(currentExtension, ''))
+
+      if (currentFilename == defaultFilename)
+        if defaultCount > 0
+          countStr = defaultCount + ''
+          countStr = '000'.substring(countStr.length) + countStr
+          newfile = "#{currentFilename}_#{countStr}#{currentExtension}"
+          filenames.push(newfile) unless newfile in filenames
+        else
+          newfile = currentFilename + currentExtension
+          filenames.push(newfile) unless newfile in filenames
+        defaultCount++
+      else
+        newfile = currentFilename + currentExtension
+        filenames.push(newfile) unless newfile in filenames
+
+      for line in uml.split('\n')
+        if line.match ///^[\s]*(newpage)///i
+          countStr = pageCount + ''
+          countStr = '000'.substring(countStr.length) + countStr
+          newfile = "#{currentFilename}_#{countStr}#{currentExtension}"
+          filenames.push(newfile) unless newfile in filenames
+          pageCount++
+
+    filenames
+
   renderUml: ->
     filePath = @editor.getPath()
     imgBase = filePath.replace path.extname(filePath), ''
 
-    imgFiles = [imgBase + '.png']
-    count = 1
-    for line in @editor.getText().split('\n')
-      if line.match ///^[\s]*(newpage)///i
-        countStr = count + ''
-        countStr = '000'.substring(countStr.length) + countStr
-        imgFiles.push "#{imgBase}_#{countStr}.png"
-        count++
+    imgFiles = @getFilenames path.dirname(filePath), path.basename(filePath, path.extname(filePath)), @editor.getText()
 
     upToDate = true
     fileTime = fs.statSync(filePath).mtime
@@ -101,11 +141,11 @@ class PlantumlPreviewView extends ScrollView
         break
     if upToDate
         @removeImages()
-        @addImages imgFiles
+        @addImages imgFiles, Date.now()
         return
 
     exitHandler = (files) =>
-      @addImages(files)
+      @addImages(files, Date.now())
     exit = (code) ->
       exitHandler imgFiles
 

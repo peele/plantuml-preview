@@ -1,3 +1,7 @@
+# 0.3.0
+- Handle filename provided with @startuml
+- Handle multiple @startuml/@enduml in single file
+
 # 0.2.0
 - Added config setting for Graphviz dot location
 - Support for displaying multipage uml diagrams
