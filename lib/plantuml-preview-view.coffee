@@ -29,7 +29,7 @@ class PlantumlPreviewView extends ScrollView
     if @editor?
       @zoomToFit.attr('checked', atom.config.get('plantuml-preview.zoomToFit'))
       checkHandler = (checked) =>
-        @setZoomAttr(checked)
+        @setZoomFit(checked)
       @on 'change', '#zoomToFit', ->
         checkHandler(@checked)
 
@@ -64,19 +64,17 @@ class PlantumlPreviewView extends ScrollView
       if displayFilenames
         @container.append("<div class=\"filename\">#{file}</div>")
       @container.append("<img class=\"uml-image\" src=\"#{file}?time=#{time}\"/>")
-    @setZoomAttr(@zoomToFit.is(':checked'))
+    @setZoomFit(@zoomToFit.is(':checked'))
     @container.show
 
   removeImages: ->
     @container.empty()
 
-  setZoomAttr: (checked) ->
+  setZoomFit: (checked) ->
     if checked
-      @container.find('.uml-image').attr('height', '100%')
-      @container.find('.uml-image').attr('width', '100%')
+      @container.find('.uml-image').addClass('zoomToFit')
     else
-      @container.find('.uml-image').removeAttr('height')
-      @container.find('.uml-image').removeAttr('width')
+      @container.find('.uml-image').removeClass('zoomToFit')
 
   getFilenames: (directory, defaultName, contents) ->
     # console.log "contents:\n#{contents}\n"
