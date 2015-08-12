@@ -1,4 +1,4 @@
-fs = require 'fs-plus'
+fs = null
 url = require 'url'
 PlantumlPreviewView = null
 
@@ -19,6 +19,7 @@ removePreviewForEditor = (editor) ->
     false
 
 addPreviewForEditor = (editor) ->
+  fs ?= require 'fs-plus'
   uri = uriForEditor(editor)
   previousActivePane = atom.workspace.getActivePane()
   if editor and fs.isFileSync(editor.getPath())

@@ -1,7 +1,7 @@
 {$, ScrollView} = require 'atom-space-pen-views'
 {Disposable, CompositeDisposable, BufferedProcess} = require 'atom'
-path = require 'path'
-fs = require 'fs-plus'
+path = null
+fs = null
 
 editorForId = (editorId) ->
   for editor in atom.workspace.getTextEditors()
@@ -83,7 +83,7 @@ class PlantumlPreviewView extends ScrollView
       @container.find('.uml-image').removeClass('zoomToFit')
 
   getFilenames: (directory, defaultName, contents) ->
-    # console.log "contents:\n#{contents}\n"
+    path ?= require 'path'
     filenames = []
     defaultFilename = path.join(directory, defaultName)
     defaultCount = 0
@@ -130,6 +130,8 @@ class PlantumlPreviewView extends ScrollView
     filenames
 
   renderUml: ->
+    path ?= require 'path'
+    fs ?= require 'fs-plus'
     filePath = @editor.getPath()
     imgBase = filePath.replace path.extname(filePath), ''
 
