@@ -21,6 +21,10 @@ class PlantumlPreviewView extends ScrollView
     super
     @editor = editorForId @editorId
     @disposables = new CompositeDisposable
+    @disposables.add atom.workspace.onDidChangeActivePaneItem (item) =>
+      if item is @editor
+          pane = atom.workspace.paneForItem(this)
+          pane.activateItem this
 
   destroy: ->
     @disposables.dispose()
