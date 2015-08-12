@@ -62,8 +62,14 @@ class PlantumlPreviewView extends ScrollView
     displayFilenames = atom.config.get('plantuml-preview.displayFilename')
     for file in imgFiles
       if displayFilenames
-        @container.append("<div class=\"filename\">#{file}</div>")
-      @container.append("<img class=\"uml-image\" src=\"#{file}?time=#{time}\"/>")
+        div = $('<div/>')
+          .attr('class', 'filename')
+          .text("#{file}")
+        @container.append div
+      img = $('<img/>')
+        .attr('class', 'uml-image')
+        .attr('src', "#{file}?time=#{time}")
+      @container.append img
     @setZoomFit(@zoomToFit.is(':checked'))
     @container.show
 
