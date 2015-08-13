@@ -63,6 +63,10 @@ module.exports =
       title: 'Display Filename Above UML Diagrams'
       type: 'boolean'
       default: true
+    bringFront:
+      title: 'Bring Preview To Front When Editor Gains Focus'
+      type: 'boolean'
+      default: false
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
