@@ -1,3 +1,10 @@
+# 0.5.1
+- `Bring To Front` defaulted to false
+- *This feature may be removed, clarification:*
+  - Put it in due to annoyance with the `window:focus-next-pane`/ `pane:show-next-item` workflow and fuzzy-finder not showing all open items
+  - Toggling the preview accomplishes the same outcome due to files only regenerating if required
+  - Does preserve the state (zoom and such) of the preview, which toggling would lose, but there are probably other ways to deal with this issue (serialization?)
+
 # 0.5.0
 - Bring To Front feature, not sure about it, defaulted to true
 - Minor refactor

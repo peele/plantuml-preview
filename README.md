@@ -9,7 +9,8 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 
 ## Features
 - Generate png image(s) and display in split pane
-- Regenerate on save
+  - Images are only generated on preview toggle if the expected image files do not exist or are out of date
+  - Regenerate on save
 - Charset of the text editor will be passed to PlantUML
 - Zoom to fit option
   - Configuration setting for initial value
@@ -22,8 +23,9 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 
 ## Configuration
 - `Bring To Front`: Bring preview to front when parent editor gains focus
-  - Default = true
+  - Default = false
   - Works best if `fuzzy-finder:Search All Panes` = true
+  - *See [CHANGELOG](https://github.com/peele/plantuml-preview/blob/master/CHANGELOG.md), don't know if this feature is necessary*
 - `Display Filename Above UML Diagrams`: Default = true
 - `Graphviz Dot Location`: Path to dot executable
 - `PlantUML Jar Location`: Path to PlantUML jar
