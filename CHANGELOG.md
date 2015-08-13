@@ -1,3 +1,7 @@
+# 0.5.0
+- Bring To Front feature, not sure about it, defaulted to true
+- Minor refactor
+
 # 0.4.0
 - 'Zoom To Fit' default set to true
 - Added 'Display Filename Above UML Diagrams', default true

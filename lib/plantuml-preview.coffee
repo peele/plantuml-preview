@@ -64,9 +64,10 @@ module.exports =
       type: 'boolean'
       default: true
     bringFront:
-      title: 'Bring Preview To Front When Editor Gains Focus'
+      title: 'Bring To Front'
+      description: 'Bring preview to front when parent editor gains focus.'
       type: 'boolean'
-      default: false
+      default: true
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()

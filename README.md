@@ -21,11 +21,14 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 - Handling of `@startuml filename`
 
 ## Configuration
-- `Display Filename Above UML Diagrams`
+- `Bring To Front`: Bring preview to front when parent editor gains focus
+  - Default = true
+  - Works best if `fuzzy-finder:Search All Panes` = true
+- `Display Filename Above UML Diagrams`: Default = true
 - `Graphviz Dot Location`: Path to dot executable
 - `PlantUML Jar Location`: Path to PlantUML jar
 - `Java`: Path to java executable
-- `Zoom To Fit`: The initial setting for new preview panes
+- `Zoom To Fit`: The initial setting for new preview panes, default = true
 
 ## Possible Future Improvements
 - Scaled zooming
