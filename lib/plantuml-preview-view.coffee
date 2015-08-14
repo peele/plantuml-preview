@@ -172,8 +172,7 @@ class PlantumlPreviewView extends ScrollView
     ]
     dotLocation = atom.config.get('plantuml-preview.dotLocation')
     if dotLocation != ''
-      args.push '-graphvizdot'
-      args.push dotLocation
+      args.push '-graphvizdot', dotLocation
     args.push filePath
 
     @removeImages()
