@@ -139,7 +139,6 @@ class PlantumlPreviewView extends ScrollView
     path ?= require 'path'
     fs ?= require 'fs-plus'
     filePath = @editor.getPath()
-    imgBase = filePath.replace path.extname(filePath), ''
 
     imgFiles = @getFilenames path.dirname(filePath), path.basename(filePath, path.extname(filePath)), @editor.getText()
 
