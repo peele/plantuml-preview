@@ -1,3 +1,7 @@
+# 0.6.0
+- `Use Temp Directory` global setting and per preview control
+- Only tested on OS X
+
 # 0.5.1
 - `Bring To Front` defaulted to false
 - *This feature may be removed, clarification:*

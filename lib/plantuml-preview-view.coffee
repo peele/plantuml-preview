@@ -14,8 +14,12 @@ class PlantumlPreviewView extends ScrollView
   @content: ->
     @div class: 'plantuml-preview padded pane-item', tabindex: -1, =>
       @div class: 'plantuml-control', outlet: 'control', =>
-        @input id: 'zoomToFit', type: 'checkbox', outlet: 'zoomToFit'
-        @label 'Zoom To Fit'
+        @div =>
+          @input id: 'zoomToFit', type: 'checkbox', outlet: 'zoomToFit'
+          @label 'Zoom To Fit'
+        @div =>
+          @input id: 'useTempDir', type: 'checkbox', outlet: 'useTempDir'
+          @label 'Use Temp Dir'
       @div class: 'plantuml-container', outlet: 'container'
 
   constructor: ({@editorId}) ->
@@ -28,6 +32,8 @@ class PlantumlPreviewView extends ScrollView
 
   attached: ->
     if @editor?
+      @useTempDir.attr('checked', atom.config.get('plantuml-preview.useTempDir'))
+
       @zoomToFit.attr('checked', atom.config.get('plantuml-preview.zoomToFit'))
       checkHandler = (checked) =>
         @setZoomFit(checked)
@@ -145,7 +151,7 @@ class PlantumlPreviewView extends ScrollView
     basename = path.basename(filePath, path.extname(filePath))
     directory = path.dirname(filePath)
 
-    if atom.config.get 'plantuml-preview.useTempDir'
+    if @useTempDir.is(':checked')
       directory = path.join os.tmpdir(), 'plantuml-preview'
       if !fs.existsSync directory
         fs.mkdirSync directory

@@ -20,6 +20,9 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
   - multiple `@startuml`/`@enduml` within file
   - Combinations of both
 - Handling of `@startuml filename`
+- Use temporary directory option
+  - Configuration setting for initial value
+  - Checkbox control for each preview
 
 ## Configuration
 - `Bring To Front`: Bring preview to front when parent editor gains focus
