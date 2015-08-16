@@ -73,6 +73,10 @@ module.exports =
       description: 'Output diagrams to {OS Temp Dir}/plantuml-preview/'
       type: 'boolean'
       default: false
+    outputFormat:
+      type: 'string'
+      default: 'png'
+      enum: ['png', 'svg']
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()

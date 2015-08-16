@@ -71,7 +71,7 @@ class PlantumlPreviewView extends ScrollView
   onDidChangeModified: ->
     new Disposable()
 
-  addImages: (imgFiles, time) ->
+  addImages: (imgFiles, format, time) ->
     displayFilenames = atom.config.get('plantuml-preview.displayFilename')
     for file in imgFiles
       if displayFilenames
@@ -79,9 +79,15 @@ class PlantumlPreviewView extends ScrollView
           .attr('class', 'filename')
           .text("#{file}")
         @container.append div
-      img = $('<img/>')
-        .attr('class', 'uml-image')
-        .attr('src', "#{file}?time=#{time}")
+      if format == 'svg'
+        img = $('<object/>')
+          .attr('class', 'uml-image')
+          .attr('type', 'image/svg+xml')
+          .attr('data', "#{file}?time=#{time}")
+      else
+        img = $('<img/>')
+          .attr('class', 'uml-image')
+          .attr('src', "#{file}?time=#{time}")
       @container.append img
     @setZoomFit(@zoomToFit.is(':checked'))
     @container.show
@@ -95,7 +101,7 @@ class PlantumlPreviewView extends ScrollView
     else
       @container.find('.uml-image').removeClass('zoomToFit')
 
-  getFilenames: (directory, defaultName, contents) ->
+  getFilenames: (directory, defaultName, defaultExtension, contents) ->
     path ?= require 'path'
     filenames = []
     defaultFilename = path.join(directory, defaultName)
@@ -105,7 +111,7 @@ class PlantumlPreviewView extends ScrollView
         continue
 
       currentFilename = path.join(directory, defaultName)
-      currentExtension = '.png'
+      currentExtension = defaultExtension
       pageCount = 1
 
       filename = uml.match ///@startuml([^\n]*)\n///i
@@ -115,7 +121,7 @@ class PlantumlPreviewView extends ScrollView
           if path.extname(filename)
             currentExtension = path.extname filename
           else
-            currentExtension = '.png'
+            currentExtension = defaultExtension
           currentFilename = path.join(directory, filename.replace(currentExtension, ''))
 
       if (currentFilename == defaultFilename)
@@ -140,6 +146,7 @@ class PlantumlPreviewView extends ScrollView
           filenames.push(newfile) unless newfile in filenames
           pageCount++
 
+    console.log "files: [#{filenames}]"
     filenames
 
   renderUml: ->
@@ -150,13 +157,14 @@ class PlantumlPreviewView extends ScrollView
     filePath = @editor.getPath()
     basename = path.basename(filePath, path.extname(filePath))
     directory = path.dirname(filePath)
+    format = atom.config.get('plantuml-preview.outputFormat')
 
     if @useTempDir.is(':checked')
       directory = path.join os.tmpdir(), 'plantuml-preview'
       if !fs.existsSync directory
         fs.mkdirSync directory
 
-    imgFiles = @getFilenames directory, basename, @editor.getText()
+    imgFiles = @getFilenames directory, basename, '.' + format, @editor.getText()
 
     upToDate = true
     fileTime = fs.statSync(filePath).mtime
@@ -173,11 +181,6 @@ class PlantumlPreviewView extends ScrollView
         @addImages imgFiles, Date.now()
         return
 
-    exitHandler = (files) =>
-      @addImages(files, Date.now())
-    exit = (code) ->
-      exitHandler imgFiles
-
     command = atom.config.get 'plantuml-preview.java'
     args = [
       '-jar',
@@ -185,10 +188,17 @@ class PlantumlPreviewView extends ScrollView
       '-charset',
       @editor.getEncoding()
     ]
+    if format == 'svg'
+      args.push '-tsvg'
     dotLocation = atom.config.get('plantuml-preview.dotLocation')
     if dotLocation != ''
       args.push '-graphvizdot', dotLocation
     args.push '-output', directory, filePath
+
+    exitHandler = (files) =>
+      @addImages(files, format, Date.now())
+    exit = (code) ->
+      exitHandler imgFiles
 
     @removeImages()
     new BufferedProcess {command, args, exit}
