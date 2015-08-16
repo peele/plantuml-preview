@@ -30,6 +30,7 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 - `Graphviz Dot Location`: Path to dot executable
 - `PlantUML Jar Location`: Path to PlantUML jar
 - `Java`: Path to java executable
+- `Use Temp Directory`: Output diagrams to OS temporary directory, default = false
 - `Zoom To Fit`: The initial setting for new preview panes, default = true
 
 ## Possible Future Improvements

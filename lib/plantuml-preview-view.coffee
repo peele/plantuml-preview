@@ -2,6 +2,7 @@
 {Disposable, CompositeDisposable, BufferedProcess} = require 'atom'
 path = null
 fs = null
+os = null
 
 editorForId = (editorId) ->
   for editor in atom.workspace.getTextEditors()
@@ -138,9 +139,18 @@ class PlantumlPreviewView extends ScrollView
   renderUml: ->
     path ?= require 'path'
     fs ?= require 'fs-plus'
-    filePath = @editor.getPath()
+    os ?= require 'os'
 
-    imgFiles = @getFilenames path.dirname(filePath), path.basename(filePath, path.extname(filePath)), @editor.getText()
+    filePath = @editor.getPath()
+    basename = path.basename(filePath, path.extname(filePath))
+    directory = path.dirname(filePath)
+
+    if atom.config.get 'plantuml-preview.useTempDir'
+      directory = path.join os.tmpdir(), 'plantuml-preview'
+      if !fs.existsSync directory
+        fs.mkdirSync directory
+
+    imgFiles = @getFilenames directory, basename, @editor.getText()
 
     upToDate = true
     fileTime = fs.statSync(filePath).mtime
@@ -172,7 +182,7 @@ class PlantumlPreviewView extends ScrollView
     dotLocation = atom.config.get('plantuml-preview.dotLocation')
     if dotLocation != ''
       args.push '-graphvizdot', dotLocation
-    args.push filePath
+    args.push '-output', directory, filePath
 
     @removeImages()
     new BufferedProcess {command, args, exit}

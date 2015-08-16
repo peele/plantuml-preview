@@ -68,6 +68,11 @@ module.exports =
       description: 'Bring preview to front when parent editor gains focus.'
       type: 'boolean'
       default: false
+    useTempDir:
+      title: 'Use Temp Directory'
+      description: 'Output diagrams to {OS Temp Dir}/plantuml-preview/'
+      type: 'boolean'
+      default: false
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
