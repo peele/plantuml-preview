@@ -11,15 +11,15 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 - Generate png image(s) and display in split pane
   - Images are only generated on preview toggle if the expected image files do not exist or are out of date
   - Regenerate on save
-- Charset of the text editor will be passed to PlantUML
-- Zoom to fit option
-  - Configuration setting for initial value
-  - Checkbox control for each preview
 - Supports multipage diagrams
   - `newpage` within `@startuml`/`@enduml`  
   - multiple `@startuml`/`@enduml` within file
   - Combinations of both
 - Handling of `@startuml filename`
+- Charset of the text editor will be passed to PlantUML
+- Zoom to fit option
+  - Configuration setting for initial value
+  - Checkbox control for each preview
 - Use temporary directory option
   - Configuration setting for initial value
   - Checkbox control for each preview
