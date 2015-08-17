@@ -20,6 +20,11 @@ class PlantumlPreviewView extends ScrollView
         @div =>
           @input id: 'useTempDir', type: 'checkbox', outlet: 'useTempDir'
           @label 'Use Temp Dir'
+        @div =>
+          @label 'Output'
+          @select outlet: 'outputFormat', =>
+            @option value: 'png', 'png'
+            @option value: 'svg', 'svg'
       @div class: 'plantuml-container', outlet: 'container'
 
   constructor: ({@editorId}) ->
@@ -33,6 +38,7 @@ class PlantumlPreviewView extends ScrollView
   attached: ->
     if @editor?
       @useTempDir.attr('checked', atom.config.get('plantuml-preview.useTempDir'))
+      @outputFormat.val atom.config.get('plantuml-preview.outputFormat')
 
       @zoomToFit.attr('checked', atom.config.get('plantuml-preview.zoomToFit'))
       checkHandler = (checked) =>
@@ -148,10 +154,12 @@ class PlantumlPreviewView extends ScrollView
     fs ?= require 'fs-plus'
     os ?= require 'os'
 
+    console.log "outputFormat #{@outputFormat.val()}"
+
     filePath = @editor.getPath()
     basename = path.basename(filePath, path.extname(filePath))
     directory = path.dirname(filePath)
-    format = atom.config.get('plantuml-preview.outputFormat')
+    format = @outputFormat.val()
 
     if @useTempDir.is(':checked')
       directory = path.join os.tmpdir(), 'plantuml-preview'
