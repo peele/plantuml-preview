@@ -71,7 +71,7 @@ class PlantumlPreviewView extends ScrollView
   onDidChangeModified: ->
     new Disposable()
 
-  addImages: (imgFiles, format, time) ->
+  addImages: (imgFiles, time) ->
     displayFilenames = atom.config.get('plantuml-preview.displayFilename')
     for file in imgFiles
       if displayFilenames
@@ -79,15 +79,9 @@ class PlantumlPreviewView extends ScrollView
           .attr('class', 'filename')
           .text("#{file}")
         @container.append div
-      if format == 'svg'
-        img = $('<object/>')
-          .attr('class', 'uml-image')
-          .attr('type', 'image/svg+xml')
-          .attr('data', "#{file}?time=#{time}")
-      else
-        img = $('<img/>')
-          .attr('class', 'uml-image')
-          .attr('src', "#{file}?time=#{time}")
+      img = $('<img/>')
+        .attr('class', 'uml-image')
+        .attr('src', "#{file}?time=#{time}")
       @container.append img
     @setZoomFit(@zoomToFit.is(':checked'))
     @container.show
@@ -196,9 +190,11 @@ class PlantumlPreviewView extends ScrollView
     args.push '-output', directory, filePath
 
     exitHandler = (files) =>
-      @addImages(files, format, Date.now())
+      @addImages(files, Date.now())
     exit = (code) ->
+      console.log "End   #{Date.now()}"
       exitHandler imgFiles
 
     @removeImages()
+    console.log "Start #{Date.now()}"
     new BufferedProcess {command, args, exit}
