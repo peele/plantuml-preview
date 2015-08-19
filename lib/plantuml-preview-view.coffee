@@ -48,9 +48,9 @@ class PlantumlPreviewView extends ScrollView
 
       saveHandler = =>
         @renderUml()
-
       @disposables.add @editor.getBuffer().onDidSave ->
         saveHandler()
+
       if atom.config.get 'plantuml-preview.bringFront'
         @disposables.add atom.workspace.onDidChangeActivePaneItem (item) =>
           if item is @editor
@@ -146,15 +146,12 @@ class PlantumlPreviewView extends ScrollView
           filenames.push(newfile) unless newfile in filenames
           pageCount++
 
-    console.log "files: [#{filenames}]"
     filenames
 
   renderUml: ->
     path ?= require 'path'
     fs ?= require 'fs-plus'
     os ?= require 'os'
-
-    console.log "outputFormat #{@outputFormat.val()}"
 
     filePath = @editor.getPath()
     basename = path.basename(filePath, path.extname(filePath))
@@ -200,9 +197,7 @@ class PlantumlPreviewView extends ScrollView
     exitHandler = (files) =>
       @addImages(files, Date.now())
     exit = (code) ->
-      console.log "End   #{Date.now()}"
       exitHandler imgFiles
 
     @removeImages()
-    console.log "Start #{Date.now()}"
     new BufferedProcess {command, args, exit}
