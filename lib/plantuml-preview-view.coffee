@@ -20,6 +20,11 @@ class PlantumlPreviewView extends ScrollView
         @div =>
           @input id: 'useTempDir', type: 'checkbox', outlet: 'useTempDir'
           @label 'Use Temp Dir'
+        @div =>
+          @label 'Output'
+          @select outlet: 'outputFormat', =>
+            @option value: 'png', 'png'
+            @option value: 'svg', 'svg'
       @div class: 'plantuml-container', outlet: 'container'
 
   constructor: ({@editorId}) ->
@@ -33,6 +38,7 @@ class PlantumlPreviewView extends ScrollView
   attached: ->
     if @editor?
       @useTempDir.attr('checked', atom.config.get('plantuml-preview.useTempDir'))
+      @outputFormat.val atom.config.get('plantuml-preview.outputFormat')
 
       @zoomToFit.attr('checked', atom.config.get('plantuml-preview.zoomToFit'))
       checkHandler = (checked) =>
@@ -42,9 +48,9 @@ class PlantumlPreviewView extends ScrollView
 
       saveHandler = =>
         @renderUml()
-
       @disposables.add @editor.getBuffer().onDidSave ->
         saveHandler()
+
       if atom.config.get 'plantuml-preview.bringFront'
         @disposables.add atom.workspace.onDidChangeActivePaneItem (item) =>
           if item is @editor
@@ -95,7 +101,7 @@ class PlantumlPreviewView extends ScrollView
     else
       @container.find('.uml-image').removeClass('zoomToFit')
 
-  getFilenames: (directory, defaultName, contents) ->
+  getFilenames: (directory, defaultName, defaultExtension, contents) ->
     path ?= require 'path'
     filenames = []
     defaultFilename = path.join(directory, defaultName)
@@ -105,7 +111,7 @@ class PlantumlPreviewView extends ScrollView
         continue
 
       currentFilename = path.join(directory, defaultName)
-      currentExtension = '.png'
+      currentExtension = defaultExtension
       pageCount = 1
 
       filename = uml.match ///@startuml([^\n]*)\n///i
@@ -115,7 +121,7 @@ class PlantumlPreviewView extends ScrollView
           if path.extname(filename)
             currentExtension = path.extname filename
           else
-            currentExtension = '.png'
+            currentExtension = defaultExtension
           currentFilename = path.join(directory, filename.replace(currentExtension, ''))
 
       if (currentFilename == defaultFilename)
@@ -150,13 +156,14 @@ class PlantumlPreviewView extends ScrollView
     filePath = @editor.getPath()
     basename = path.basename(filePath, path.extname(filePath))
     directory = path.dirname(filePath)
+    format = @outputFormat.val()
 
     if @useTempDir.is(':checked')
       directory = path.join os.tmpdir(), 'plantuml-preview'
       if !fs.existsSync directory
         fs.mkdirSync directory
 
-    imgFiles = @getFilenames directory, basename, @editor.getText()
+    imgFiles = @getFilenames directory, basename, '.' + format, @editor.getText()
 
     upToDate = true
     fileTime = fs.statSync(filePath).mtime
@@ -173,11 +180,6 @@ class PlantumlPreviewView extends ScrollView
         @addImages imgFiles, Date.now()
         return
 
-    exitHandler = (files) =>
-      @addImages(files, Date.now())
-    exit = (code) ->
-      exitHandler imgFiles
-
     command = atom.config.get 'plantuml-preview.java'
     args = [
       '-jar',
@@ -185,10 +187,17 @@ class PlantumlPreviewView extends ScrollView
       '-charset',
       @editor.getEncoding()
     ]
+    if format == 'svg'
+      args.push '-tsvg'
     dotLocation = atom.config.get('plantuml-preview.dotLocation')
     if dotLocation != ''
       args.push '-graphvizdot', dotLocation
     args.push '-output', directory, filePath
+
+    exitHandler = (files) =>
+      @addImages(files, Date.now())
+    exit = (code) ->
+      exitHandler imgFiles
 
     @removeImages()
     new BufferedProcess {command, args, exit}

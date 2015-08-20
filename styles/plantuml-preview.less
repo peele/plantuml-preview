@@ -22,12 +22,15 @@ atom-pane-container atom-pane .item-views {
     padding-left: @component-padding;
     padding-right: @component-padding;
   }
-  input[type="checkbox"] {
+  input {
     height: @input-font-size;
     width: @input-font-size;
+    padding-left: @component-padding / 2;
+    padding-right: @component-padding / 2;
   }
   label {
-    padding-left: @component-padding;
+    padding-left: @component-padding / 2;
+    padding-right: @component-padding / 2;
   }
 }
 
@@ -40,7 +43,8 @@ atom-pane-container atom-pane .item-views {
   }
   .uml-image {
     display: block;
-    padding-bottom: @component-padding * 1.5;
+    margin-bottom: @component-padding * 1.5;
+    background-color: #ffffff;
   }
   .zoomToFit {
     height: 100%;

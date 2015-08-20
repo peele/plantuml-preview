@@ -72,7 +72,11 @@ module.exports =
       title: 'Use Temp Directory'
       description: 'Output diagrams to {OS Temp Dir}/plantuml-preview/'
       type: 'boolean'
-      default: false
+      default: true
+    outputFormat:
+      type: 'string'
+      default: 'svg'
+      enum: ['png', 'svg']
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
