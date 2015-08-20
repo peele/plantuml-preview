@@ -41,4 +41,3 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 ## Possible Future Improvements
 - Scaled zooming
 - Copy preview image from pane
-- Support for additional output formats
