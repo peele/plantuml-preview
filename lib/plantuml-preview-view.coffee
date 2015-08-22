@@ -9,6 +9,17 @@ editorForId = (editorId) ->
     return editor if editor.id?.toString() is editorId.toString()
   null
 
+settingsError = (message, setting) ->
+  options = {
+    detail: "Verify '#{setting}' in settings.",
+    buttons: [{
+        text: 'Open Package Settings',
+        onDidClick: -> atom.workspace.open('atom://config/packages/plantuml-preview', searchAllPanes: true)
+    }],
+    dismissable: true
+  }
+  atom.notifications.addError "plantuml-preview: #{message}", options
+
 module.exports =
 class PlantumlPreviewView extends ScrollView
   @content: ->
@@ -191,13 +202,23 @@ class PlantumlPreviewView extends ScrollView
       args.push '-tsvg'
     dotLocation = atom.config.get('plantuml-preview.dotLocation')
     if dotLocation != ''
-      args.push '-graphvizdot', dotLocation
+      if fs.isFileSync dotLocation
+        args.push '-graphvizdot', dotLocation
+      else
+        settingsError "#{dotLocation} not found or is not a file.", 'Graphviz Dot Location'
     args.push '-output', directory, filePath
 
     exitHandler = (files) =>
       @addImages(files, Date.now())
     exit = (code) ->
       exitHandler imgFiles
+    stdout = (output) ->
+      atom.notifications.addInfo output
+    stderr = (output) ->
+      settingsError output, 'PlantUML Jar Location'
+    errorHandler = (object) ->
+      object.handle()
+      settingsError "#{command} not found.", 'Java'
 
     @removeImages()
-    new BufferedProcess {command, args, exit}
+    new BufferedProcess({command, args, stdout, stderr, exit}).onWillThrowError errorHandler
