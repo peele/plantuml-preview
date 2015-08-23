@@ -32,6 +32,87 @@ atom-pane-container atom-pane .item-views {
     padding-left: @component-padding / 2;
     padding-right: @component-padding / 2;
   }
+
+  // Copied from settings-view.less
+  select { // removed '.form-control'
+    color: @text-color;
+    border-color: @button-border-color;
+    background-color: @button-background-color;
+    &:hover,
+    &:focus {
+      box-shadow: none;
+      background-color: @button-background-color-hover;
+    }
+  }
+
+  //Copied from settings-view.less, modifed
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    display: inline-block;
+    position: relative;
+    font-size: inherit;
+    // margin: 0 .75em 0 -2.25em;
+    vertical-align: top;
+    // width: 1.5em;
+    // height: 1.5em;
+    cursor: pointer;
+    outline: 0;
+    border-radius: @component-border-radius;
+    background-color: @text-color-subtle;
+    transition: background-color .16s cubic-bezier(0.5, 0.15, 0.2, 1);
+
+    &:focus {
+      box-shadow: 0 0 0 1px @base-border-color;
+    }
+
+    &:active {
+      background-color: @background-color-success;
+    }
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: .9em; // changed
+      left: .4em; // changed
+      height: .16em;
+      min-height: 2px;
+      border-radius: 1px;
+      background-color: @base-background-color;
+      transform-origin: 0% 0%;
+      opacity: 0;
+      transition: transform .1s cubic-bezier(0.5, 0.15, 0.2, 1), opacity .1s cubic-bezier(0.5, 0.15, 0.2, 1);
+    }
+    &:before {
+      width: .45em;
+      transform: rotate(225deg) scale(0);
+    }
+    &:after {
+      width: .9em;
+      margin: -1px;
+      transform: rotate(-45deg) scale(0);
+      transition-delay: .05s;
+    }
+
+    &:checked {
+      background-color: @background-color-success;
+      &:active {
+        background-color: @text-color-subtle;
+      }
+      &:before,
+      &:after {
+        opacity: 1;
+      }
+      &:before {
+        transform: rotate(225deg) scale(0.9); // changed
+        transition-delay: .05s;
+      }
+      &:after {
+        transform: rotate(-45deg) scale(0.9); // changed
+        transition-delay: 0;
+      }
+    }
+  }
 }
 
 .plantuml-container {
