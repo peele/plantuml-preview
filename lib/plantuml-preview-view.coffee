@@ -89,6 +89,7 @@ class PlantumlPreviewView extends ScrollView
     new Disposable()
 
   addImages: (imgFiles, time) ->
+    @container.empty()
     displayFilenames = atom.config.get('plantuml-preview.displayFilename')
     for file in imgFiles
       if displayFilenames
@@ -105,6 +106,8 @@ class PlantumlPreviewView extends ScrollView
 
   removeImages: ->
     @container.empty()
+    @container.append $('<div/>').attr('class', 'throbber')
+    @container.show
 
   setZoomFit: (checked) ->
     if checked
