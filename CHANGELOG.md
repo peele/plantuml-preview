@@ -1,10 +1,17 @@
+# 0.8.0
+- Error notifications, hopefully useful ones
+  - Displayed if there is a problem with `Graphviz Dot Location`, `PlantUML Jar Location` or `Java Command`
+  - Button to open package settings
+- Update control style, blends with theme most of the time
+- Show throbber while generating diagrams
+
 # 0.7.0
 - Global `Output Format` setting with png and svg options, default svg
 - Per preview control for output format
 - Changed `Use Temp Directory` default to true
 
 # 0.6.0
-- `Use Temp Directory` global setting and per preview control
+- `Use Temp Directory` global setting and per preview control (#3)
 - Only tested on OS X
 
 # 0.5.1

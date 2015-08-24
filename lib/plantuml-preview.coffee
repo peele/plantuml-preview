@@ -45,6 +45,7 @@ toggle = ->
 module.exports =
   config:
     java:
+      title: 'Java Command'
       type: 'string'
       default: 'java'
     jarLocation:

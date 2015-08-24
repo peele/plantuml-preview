@@ -33,7 +33,7 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 - `Display Filename Above UML Diagrams`: Default = true
 - `Graphviz Dot Location`: Path to dot executable, [Graphviz](http://www.graphviz.org/)
 - `PlantUML Jar Location`: Path to PlantUML jar
-- `Java`: Path to java executable
+- `Java Command`: Command for executing Java
 - `Output Format`: Select png or svg output, default = svg
 - `Use Temp Directory`: Output diagrams to OS temporary directory, default = true
 - `Zoom To Fit`: The initial setting for new preview panes, default = true

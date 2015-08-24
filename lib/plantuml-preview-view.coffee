@@ -221,7 +221,7 @@ class PlantumlPreviewView extends ScrollView
       settingsError output, 'PlantUML Jar Location'
     errorHandler = (object) ->
       object.handle()
-      settingsError "#{command} not found.", 'Java'
+      settingsError "#{command} not found.", 'Java Command'
 
     @removeImages()
     new BufferedProcess({command, args, stdout, stderr, exit}).onWillThrowError errorHandler
