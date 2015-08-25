@@ -1,3 +1,6 @@
+# 0.8.1
+- Improvements to notifications (#4)
+
 # 0.8.0
 - Error notifications, hopefully useful ones
   - Displayed if there is a problem with `Graphviz Dot Location`, `PlantUML Jar Location` or `Java Command`

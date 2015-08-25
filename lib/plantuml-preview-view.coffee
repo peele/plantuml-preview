@@ -211,14 +211,29 @@ class PlantumlPreviewView extends ScrollView
         settingsError "#{dotLocation} not found or is not a file.", 'Graphviz Dot Location'
     args.push '-output', directory, filePath
 
+    outputlog = []
+    errorlog = []
+
     exitHandler = (files) =>
       @addImages(files, Date.now())
+      if errorlog.length > 0
+        str = errorlog.join('')
+        if str.match ///jarfile///i
+          settingsError str, 'PlantUML Jar Location'
+        else
+          atom.notifications.addError "plantuml-preview: stderr (logged to console)", detail: str
+          console.log "plantuml-preview: stderr\n#{str}"
+      if outputlog.length > 0
+        str = outputlog.join('')
+        atom.notifications.addInfo "plantuml-preview: stdout (logged to console)", detail: str
+        console.log "plantuml-preview: stdout\n#{str}"
     exit = (code) ->
       exitHandler imgFiles
+
     stdout = (output) ->
-      atom.notifications.addInfo output
+      outputlog.push output
     stderr = (output) ->
-      settingsError output, 'PlantUML Jar Location'
+      errorlog.push output
     errorHandler = (object) ->
       object.handle()
       settingsError "#{command} not found.", 'Java Command'
