@@ -6,6 +6,12 @@
       'command': 'plantuml-preview:toggle'
     }
   ]
+  '.plantuml-preview .uml-image': [
+    {
+      'label': 'Copy Diagram'
+      'command': 'core:copy'
+    }
+  ]
 'menu': [
   {
     'label': 'Packages'

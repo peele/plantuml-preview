@@ -1,5 +1,7 @@
 {$, ScrollView} = require 'atom-space-pen-views'
 {Disposable, CompositeDisposable, BufferedProcess} = require 'atom'
+clipboard = null
+nativeimage = null
 path = null
 fs = null
 os = null
@@ -67,6 +69,21 @@ class PlantumlPreviewView extends ScrollView
           if item is @editor
               pane = atom.workspace.paneForItem(this)
               pane.activateItem this
+
+      atom.commands.add @element,
+        'core:copy': (event) =>
+          clipboard ?= require 'clipboard'
+          nativeimage ?= require 'native-image'
+          event.stopPropagation()
+          filename = $(event.target).closest('.uml-image').attr('src')
+          filename = filename.replace ///\?time=.*///, ''
+          console.log "COPY! #{filename}"
+          image = nativeimage.createFromPath(filename)
+          image = image.toPng()
+          # i = clipboard.readImage()
+          clipboard.writeImage(filename, 'image/png')
+          # clipboard.writeImage(nativeimage.createFromPath(filename).toPng())
+          # atom.clipboard.write($(event.target).closest('.uml-image').attr('src'))
 
       @renderUml()
 
