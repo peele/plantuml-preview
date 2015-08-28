@@ -80,10 +80,9 @@ class PlantumlPreviewView extends ScrollView
           console.log "COPY! #{filename}"
           image = nativeimage.createFromPath(filename)
           image = image.toPng()
-          # i = clipboard.readImage()
-          clipboard.writeImage(filename, 'image/png')
-          # clipboard.writeImage(nativeimage.createFromPath(filename).toPng())
-          # atom.clipboard.write($(event.target).closest('.uml-image').attr('src'))
+          # atom.clipboard.writeImage(image, 'image/png')
+          clipboard.writeImage(image, 'image/png')
+          # clipboard.writeImage(image)
 
       @renderUml()
 
