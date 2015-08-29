@@ -68,6 +68,16 @@ class PlantumlPreviewView extends ScrollView
               pane = atom.workspace.paneForItem(this)
               pane.activateItem this
 
+      atom.commands.add @element,
+        'plantuml-preview:zoom-in': =>
+          console.log "zoom-in"
+        'plantuml-preview:zoom-out': =>
+          console.log "zoom-out"
+        'plantuml-preview:zoom-reset': =>
+          console.log "reset-zoom"
+        'plantuml-preview:zoom-fit': =>
+          console.log "zoom-fit"
+
       @renderUml()
 
   getPath: ->

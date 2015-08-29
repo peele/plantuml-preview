@@ -9,3 +9,10 @@
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
   'ctrl-alt-p': 'plantuml-preview:toggle'
+'.plantuml-preview':
+  'cmd-+': 'plantuml-preview:zoom-in'
+  'cmd-=': 'plantuml-preview:zoom-in'
+  'cmd-_': 'plantuml-preview:zoom-out'
+  'cmd--': 'plantuml-preview:zoom-out'
+  'cmd-0': 'plantuml-preview:zoom-reset'
+  'cmd-9': 'plantuml-preview:zoom-fit'
