@@ -98,10 +98,17 @@ class PlantumlPreviewView extends ScrollView
           .text("#{file}")
         @container.append div
       img = $('<img/>')
-        .attr('class', 'uml-image')
         .attr('src', "#{file}?time=#{time}")
+        .load ->
+          img = $(this)
+          img.attr('width', img.width())
+          img.attr('height', img.height())
+          img.attr('original-width', img.width())
+          img.attr('original-height', img.height())
+          img.addClass('uml-image')
+          if $('#zoomToFit').is(':checked')
+            img.addClass('zoomToFit')
       @container.append img
-    @setZoomFit(@zoomToFit.is(':checked'))
     @container.show
 
   removeImages: ->
