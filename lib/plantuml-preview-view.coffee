@@ -81,7 +81,7 @@ class PlantumlPreviewView extends ScrollView
           image = nativeimage.createFromPath(filename)
           image = image.toPng()
           # atom.clipboard.writeImage(image, 'image/png')
-          clipboard.writeImage(image, 'image/png')
+          # clipboard.writeImage(image, 'image/png')
           # clipboard.writeImage(image)
 
       @renderUml()
