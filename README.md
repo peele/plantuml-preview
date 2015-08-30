@@ -9,18 +9,21 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 
 ## Features
 - Generate diagrams and display in split pane
-  - Outout formats: svg, png
+  - Output formats: svg, png
   - Images are only generated on preview toggle if the expected image files do not exist or are out of date
   - Regenerate on save
 - Supports multipage diagrams
   - `newpage` within `@startuml`/`@enduml`  
-  - multiple `@startuml`/`@enduml` within file
+  - Multiple `@startuml`/`@enduml` within file
   - Combinations of both
 - Handling of `@startuml filename`. Images may not display if the extension on the filename does not match the output format.
 - Charset of the text editor will be passed to PlantUML
 - Zoom to fit option
   - Configuration setting for initial value
   - Checkbox control for each preview
+- Scaled zooming
+  - Maintained when regenerating on save
+  - Maintained when output format is changed
 - Use temporary directory option
   - Configuration setting for initial value
   - Checkbox control for each preview
@@ -39,5 +42,6 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 - `Zoom To Fit`: The initial setting for new preview panes, default = true
 
 ## Possible Future Improvements
-- Scaled zooming
-- Copy preview image from pane
+- Copy diagram from pane
+  - `Clipboard.writeImage` looks like it is currently not supported in the atom api
+  - The Electron api has it listed, maybe support will be added in a future update
