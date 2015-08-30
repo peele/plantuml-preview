@@ -6,6 +6,24 @@
       'command': 'plantuml-preview:toggle'
     }
   ]
+  '.plantuml-preview': [
+    {
+      'label': 'Toggle Zoom To Fit'
+      'command': 'plantuml-preview:zoom-fit'
+    }
+    {
+      'label': 'Zoom In'
+      'command': 'plantuml-preview:zoom-in'
+    }
+    {
+      'label': 'Zoom Out'
+      'command': 'plantuml-preview:zoom-out'
+    }
+    {
+      'label': 'Reset Zoom'
+      'command': 'plantuml-preview:reset-zoom'
+    }
+  ]
 'menu': [
   {
     'label': 'Packages'
