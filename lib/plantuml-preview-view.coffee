@@ -42,6 +42,7 @@ class PlantumlPreviewView extends ScrollView
     super
     @editor = editorForId @editorId
     @disposables = new CompositeDisposable
+    @imageInfo = {scale: 1}
 
   destroy: ->
     @disposables.dispose()
@@ -70,13 +71,17 @@ class PlantumlPreviewView extends ScrollView
 
       atom.commands.add @element,
         'plantuml-preview:zoom-in': =>
-          console.log "zoom-in"
+          @imageInfo.scale = @imageInfo.scale * 1.1
+          @scaleImages()
         'plantuml-preview:zoom-out': =>
-          console.log "zoom-out"
+          @imageInfo.scale = @imageInfo.scale * 0.9
+          @scaleImages()
         'plantuml-preview:zoom-reset': =>
-          console.log "reset-zoom"
+          @imageInfo.scale = 1
+          @scaleImages()
         'plantuml-preview:zoom-fit': =>
-          console.log "zoom-fit"
+          @zoomToFit.prop 'checked', !@zoomToFit.is(':checked')
+          @setZoomFit @zoomToFit.is(':checked')
 
       @renderUml()
 
@@ -107,19 +112,39 @@ class PlantumlPreviewView extends ScrollView
           .attr('class', 'filename')
           .text("#{file}")
         @container.append div
+      imageInfo = @imageInfo
+      zoomToFit = @zoomToFit.is(':checked')
       img = $('<img/>')
         .attr('src', "#{file}?time=#{time}")
+        .attr('file', file)
         .load ->
           img = $(this)
-          img.attr('width', img.width())
-          img.attr('height', img.height())
-          img.attr('original-width', img.width())
-          img.attr('original-height', img.height())
+          file = img.attr 'file'
+          name = path.basename file, path.extname(file)
+          if imageInfo.hasOwnProperty name
+            info = imageInfo[name]
+          else
+            info = {}
+          info.origWidth = img.width()
+          info.origHeight = img.height()
+          imageInfo[name] = info
+
+          img.attr('width', imageInfo.scale * info.origWidth)
+          img.attr('height', imageInfo.scale * info.origHeight)
           img.addClass('uml-image')
-          if $('#zoomToFit').is(':checked')
+          if zoomToFit
             img.addClass('zoomToFit')
+
       @container.append img
     @container.show
+
+  scaleImages: ->
+    for e in @container.find('.uml-image')
+      img = $(e)
+      file = img.attr 'file'
+      name = path.basename file, path.extname(file)
+      img.attr 'width', @imageInfo.scale * @imageInfo[name].origWidth
+      img.attr 'height', @imageInfo.scale * @imageInfo[name].origHeight
 
   removeImages: ->
     @container.empty()
