@@ -145,6 +145,8 @@ class PlantumlPreviewView extends ScrollView
       name = path.basename file, path.extname(file)
       img.attr 'width', @imageInfo.scale * @imageInfo[name].origWidth
       img.attr 'height', @imageInfo.scale * @imageInfo[name].origHeight
+    @zoomToFit.prop 'checked', false
+    @setZoomFit @zoomToFit.is(':checked')
 
   removeImages: ->
     @container.empty()
