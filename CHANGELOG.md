@@ -1,3 +1,8 @@
+# 0.9.0
+- Support for scaled zoom
+  - Keybindings added
+  - Context menu entries added
+
 # 0.8.1
 - Improvements to notifications (#4)
 
