@@ -72,17 +72,20 @@ class PlantumlPreviewView extends ScrollView
 
       atom.commands.add @element,
         'core:copy': (event) =>
-          clipboard ?= require 'clipboard'
-          nativeimage ?= require 'native-image'
           event.stopPropagation()
+          nativeimage ?= require 'native-image'
+          clipboard ?= require 'clipboard'
+
           filename = $(event.target).closest('.uml-image').attr('src')
           filename = filename.replace ///\?time=.*///, ''
-          console.log "COPY! #{filename}"
-          image = nativeimage.createFromPath(filename)
-          image = image.toPng()
-          # atom.clipboard.writeImage(image, 'image/png')
-          # clipboard.writeImage(image, 'image/png')
-          # clipboard.writeImage(image)
+
+          ext = path.extname filename
+          if ext == '.png'
+            buffer = fs.readFileSync(filename)
+            image = nativeimage.createFromBuffer(buffer)
+            clipboard.writeImage(image)
+          else
+            atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'."
 
       @renderUml()
 
