@@ -1,3 +1,6 @@
+# 0.9.1
+- Fix uncaught TypeError when using 'Bring To Front' and output window closed (#6)
+
 # 0.9.0
 - Support for scaled zoom
   - Keybindings added
