@@ -67,7 +67,8 @@ class PlantumlPreviewView extends ScrollView
         @disposables.add atom.workspace.onDidChangeActivePaneItem (item) =>
           if item is @editor
               pane = atom.workspace.paneForItem(this)
-              pane.activateItem this
+              if (typeof(pane) != 'undefined') && (pane != null)
+                pane.activateItem this
 
       atom.commands.add @element,
         'plantuml-preview:zoom-in': =>
