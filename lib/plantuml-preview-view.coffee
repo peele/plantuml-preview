@@ -1,5 +1,7 @@
 {$, ScrollView} = require 'atom-space-pen-views'
 {Disposable, CompositeDisposable, BufferedProcess} = require 'atom'
+clipboard = null
+nativeimage = null
 path = null
 fs = null
 os = null
@@ -83,6 +85,23 @@ class PlantumlPreviewView extends ScrollView
         'plantuml-preview:zoom-fit': =>
           @zoomToFit.prop 'checked', !@zoomToFit.is(':checked')
           @setZoomFit @zoomToFit.is(':checked')
+
+      atom.commands.add @element,
+        'core:copy': (event) =>
+          event.stopPropagation()
+          nativeimage ?= require 'native-image'
+          clipboard ?= require 'clipboard'
+
+          filename = $(event.target).closest('.uml-image').attr('src')
+          filename = filename.replace ///\?time=.*///, ''
+
+          ext = path.extname filename
+          if ext == '.png'
+            buffer = fs.readFileSync(filename)
+            image = nativeimage.createFromBuffer(buffer)
+            clipboard.writeImage(image)
+          else
+            atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'."
 
       @renderUml()
 

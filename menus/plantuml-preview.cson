@@ -24,6 +24,12 @@
       'command': 'plantuml-preview:reset-zoom'
     }
   ]
+  '.plantuml-preview .uml-image': [
+    {
+      'label': 'Copy Diagram'
+      'command': 'core:copy'
+    }
+  ]
 'menu': [
   {
     'label': 'Packages'
