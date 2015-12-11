@@ -2,7 +2,7 @@
   "name": "plantuml-preview",
   "main": "./lib/plantuml-preview",
   "version": "0.9.1",
-  "description": "Package for PlantUML integration. Configuration is favored over reliance on PATH.",
+  "description": "Package for PlantUML integration. Feature rich, configuration heavy.",
   "keywords": [
     "plantuml",
     "uml",

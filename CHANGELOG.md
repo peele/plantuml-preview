@@ -1,3 +1,6 @@
+# 0.10.0
+- `Copy Diagram` context menu command
+
 # 0.9.1
 - Fix uncaught TypeError when using 'Bring To Front' and output window closed (#6)
 

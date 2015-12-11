@@ -10,6 +10,9 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 ## Features
 - Generate diagrams and display in split pane
   - Output formats: svg, png
+  - Context menu command to copy diagram
+    - SVG as XML
+    - PNG as PNG
   - Images are only generated on preview toggle if the expected image files do not exist or are out of date
   - Regenerate on save
 - Supports multipage diagrams
@@ -42,6 +45,7 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
 - `Zoom To Fit`: The initial setting for new preview panes, default = true
 
 ## Possible Future Improvements
-- Copy diagram from pane
-  - `Clipboard.writeImage` looks like it is currently not supported in the atom api
-  - The Electron api has it listed, maybe support will be added in a future update
+- Option to copy SVG diagrams as XML or PNG
+- Improved README
+- FAQ
+- Tests
