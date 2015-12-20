@@ -137,6 +137,7 @@ class PlantumlPreviewView extends ScrollView
       if displayFilenames
         div = $('<div/>')
           .attr('class', 'filename')
+          .attr('file', file)
           .text("#{file}")
         @container.append div
       imageInfo = @imageInfo
