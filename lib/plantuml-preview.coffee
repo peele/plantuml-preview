@@ -78,6 +78,11 @@ module.exports =
       type: 'string'
       default: 'svg'
       enum: ['png', 'svg']
+    beautifyXml:
+      title: 'Beautify XML'
+      description: 'Use js-beautify on XML when copying SVG diagrams.'
+      type: 'boolean'
+      default: true
 
   activate: ->
     atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()

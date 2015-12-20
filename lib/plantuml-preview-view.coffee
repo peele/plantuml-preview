@@ -5,6 +5,7 @@ nativeimage = null
 path = null
 fs = null
 os = null
+beautify_html = null
 
 editorForId = (editorId) ->
   for editor in atom.workspace.getTextEditors()
@@ -102,6 +103,9 @@ class PlantumlPreviewView extends ScrollView
               clipboard.writeImage(image)
             when '.svg'
               buffer = fs.readFileSync(filename, @editor.getEncoding())
+              if atom.config.get 'plantuml-preview.beautifyXml'
+                beautify_html ?= require('js-beautify').html
+                buffer = beautify_html buffer
               atom.clipboard.write(buffer)
             else
               atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'."
