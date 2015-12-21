@@ -287,6 +287,12 @@ class PlantumlPreviewView extends ScrollView
     errorlog = []
 
     exitHandler = (files) =>
+      if atom.config.get('plantuml-preview.beautifyXml') and (format == 'svg')
+        beautify_html ?= require('js-beautify').html
+        for file in imgFiles
+          buffer = fs.readFileSync(file, @editor.getEncoding())
+          buffer = beautify_html buffer
+          fs.writeFileSync(file, buffer, {encoding: @editor.getEncoding()})
       @addImages(files, Date.now())
       if errorlog.length > 0
         str = errorlog.join('')

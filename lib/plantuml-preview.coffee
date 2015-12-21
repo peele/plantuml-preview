@@ -80,7 +80,7 @@ module.exports =
       enum: ['png', 'svg']
     beautifyXml:
       title: 'Beautify XML'
-      description: 'Use js-beautify on XML when copying SVG diagrams.'
+      description: 'Use js-beautify on XML when copying and generating SVG diagrams.'
       type: 'boolean'
       default: true
 

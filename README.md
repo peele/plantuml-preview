@@ -32,7 +32,7 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
   - Checkbox control for each preview
 
 ## Configuration
-- `Beautify XML`: Use js-beautify on XML when copying SVG diagrams, probably pointless, default = true
+- `Beautify XML`: Use js-beautify on XML when copying and generating SVG diagrams, probably pointless, default = true
 - `Bring To Front`: Bring preview to front when parent editor gains focus
   - Default = false
   - Works best if `fuzzy-finder:Search All Panes` = true
