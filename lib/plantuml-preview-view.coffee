@@ -104,6 +104,10 @@ class PlantumlPreviewView extends ScrollView
               atom.clipboard.write(buffer)
             else
               atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'."
+        'plantuml-preview:open-file': (event) =>
+          filename = $(event.target).closest('.open-file').attr('file')
+          atom.workspace.open filename
+
 
       @renderUml()
 
@@ -131,7 +135,7 @@ class PlantumlPreviewView extends ScrollView
     for file in imgFiles
       if displayFilenames
         div = $('<div/>')
-          .attr('class', 'filename')
+          .attr('class', 'filename open-file')
           .attr('file', file)
           .text("#{file}")
         @container.append div
@@ -155,6 +159,7 @@ class PlantumlPreviewView extends ScrollView
           img.attr('width', imageInfo.scale * info.origWidth)
           img.attr('height', imageInfo.scale * info.origHeight)
           img.addClass('uml-image')
+          img.addClass('open-file')
           if zoomToFit
             img.addClass('zoomToFit')
 

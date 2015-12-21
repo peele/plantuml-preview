@@ -30,6 +30,12 @@
       'command': 'core:copy'
     }
   ]
+  '.plantuml-preview .open-file': [
+    {
+      'label': 'Open Diagram'
+      'command': 'plantuml-preview:open-file'
+    }
+  ]
 'menu': [
   {
     'label': 'Packages'
