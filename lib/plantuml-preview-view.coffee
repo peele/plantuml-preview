@@ -86,15 +86,10 @@ class PlantumlPreviewView extends ScrollView
         'plantuml-preview:zoom-fit': =>
           @zoomToFit.prop 'checked', !@zoomToFit.is(':checked')
           @setZoomFit @zoomToFit.is(':checked')
-
-      atom.commands.add @element,
         'core:copy': (event) =>
           event.stopPropagation()
-          filename = $(event.target).closest('.uml-image').attr('src')
-          filename = filename.replace ///\?time=.*///, ''
-
-          ext = path.extname filename
-          switch ext
+          filename = $(event.target).closest('.uml-image').attr('file')
+          switch path.extname(filename)
             when '.png'
               nativeimage ?= require 'native-image'
               clipboard ?= require 'clipboard'
