@@ -1,3 +1,7 @@
+# 0.11.0
+- Option to use js-beautify on XML
+- `Open Diagram` context menu command
+
 # 0.10.0
 - `Copy Diagram` context menu command
 
