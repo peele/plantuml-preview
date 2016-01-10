@@ -1,3 +1,6 @@
+# 0.11.1
+- Improve file path error handling (#8)
+
 # 0.11.0
 - Option to use js-beautify on XML
 - `Open Diagram` context menu command
