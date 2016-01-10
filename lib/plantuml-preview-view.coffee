@@ -108,7 +108,6 @@ class PlantumlPreviewView extends ScrollView
           filename = $(event.target).closest('.open-file').attr('file')
           atom.workspace.open filename
 
-
       @renderUml()
 
   getPath: ->
