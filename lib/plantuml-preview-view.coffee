@@ -12,9 +12,12 @@ editorForId = (editorId) ->
     return editor if editor.id?.toString() is editorId.toString()
   null
 
-settingsError = (message, setting) ->
+settingsError = (message, setting, path) ->
+  detail = "Verify '#{setting}' in settings."
+  if path.match ///["']///
+    detail += "\nSuggestion: Remove single/double quotes from the path string."
   options = {
-    detail: "Verify '#{setting}' in settings.",
+    detail: detail,
     buttons: [{
         text: 'Open Package Settings',
         onDidClick: -> atom.workspace.open('atom://config/packages/plantuml-preview', searchAllPanes: true)
@@ -242,6 +245,7 @@ class PlantumlPreviewView extends ScrollView
     basename = path.basename(filePath, path.extname(filePath))
     directory = path.dirname(filePath)
     format = @outputFormat.val()
+    settingError = false;
 
     if @useTempDir.is(':checked')
       directory = path.join os.tmpdir(), 'plantuml-preview'
@@ -266,20 +270,34 @@ class PlantumlPreviewView extends ScrollView
         return
 
     command = atom.config.get 'plantuml-preview.java'
+    if !fs.isFileSync command
+      settingsError "#{command} not found or is not a file.", 'Java Command', command
+      settingError = true
+    jarLocation = atom.config.get 'plantuml-preview.jarLocation'
+    if !fs.isFileSync jarLocation
+      settingsError "#{jarLocation} not found or is not a file.", 'PlantUML Jar Location', jarLocation
+      settingError = true
+    dotLocation = atom.config.get('plantuml-preview.dotLocation')
+    if dotLocation != ''
+      if !fs.isFileSync dotLocation
+        settingsError "#{dotLocation} not found or is not a file.", 'Graphviz Dot Location', dotLocation
+        settingError = true
+
+    if settingError
+      @container.empty()
+      @container.show
+      return
+
     args = [
       '-jar',
-      atom.config.get('plantuml-preview.jarLocation'),
+      jarLocation,
       '-charset',
       @editor.getEncoding()
     ]
     if format == 'svg'
       args.push '-tsvg'
-    dotLocation = atom.config.get('plantuml-preview.dotLocation')
     if dotLocation != ''
-      if fs.isFileSync dotLocation
         args.push '-graphvizdot', dotLocation
-      else
-        settingsError "#{dotLocation} not found or is not a file.", 'Graphviz Dot Location'
     args.push '-output', directory, filePath
 
     outputlog = []
@@ -296,7 +314,7 @@ class PlantumlPreviewView extends ScrollView
       if errorlog.length > 0
         str = errorlog.join('')
         if str.match ///jarfile///i
-          settingsError str, 'PlantUML Jar Location'
+          settingsError str, 'PlantUML Jar Location', jarLocation
         else
           atom.notifications.addError "plantuml-preview: stderr (logged to console)", detail: str
           console.log "plantuml-preview: stderr\n#{str}"
@@ -313,7 +331,7 @@ class PlantumlPreviewView extends ScrollView
       errorlog.push output
     errorHandler = (object) ->
       object.handle()
-      settingsError "#{command} not found.", 'Java Command'
+      settingsError "#{command} not found.", 'Java Command', command
 
     @removeImages()
     new BufferedProcess({command, args, stdout, stderr, exit}).onWillThrowError errorHandler
