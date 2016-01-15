@@ -38,9 +38,9 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
   - Works best if `fuzzy-finder:Search All Panes` = true
   - *See [CHANGELOG](https://github.com/peele/plantuml-preview/blob/master/CHANGELOG.md), don't know if this feature is necessary*
 - `Display Filename Above UML Diagrams`: Default = true
-- `Graphviz Dot Location`: Path to dot executable, [Graphviz](http://www.graphviz.org/)
-- `PlantUML Jar Location`: Path to PlantUML jar
-- `Java Command`: Command for executing Java
+- `Graphvis Dot Executable`: Path of dot executable, [Graphviz](http://www.graphviz.org/)
+- `PlantUML Jar`: Path of PlantUML jar
+- `Java Executable`: Path of Java executable, default = java
 - `Output Format`: Select png or svg output, default = svg
 - `Use Temp Directory`: Output diagrams to OS temporary directory, default = true
 - `Zoom To Fit`: The initial setting for new preview panes, default = true

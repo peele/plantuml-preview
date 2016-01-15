@@ -45,16 +45,18 @@ toggle = ->
 module.exports =
   config:
     java:
-      title: 'Java Command'
+      title: 'Java Executable'
+      description: 'Path to and including Java executable. If default, Java found on System Path will be used.'
       type: 'string'
       default: 'java'
     jarLocation:
-      title: 'PlantUML Jar Location'
+      title: 'PlantUML Jar'
+      description: 'Path to and including PlantUML Jar.'
       type: 'string'
       default: 'plantuml.jar'
     dotLocation:
-      title: 'Graphviz Dot Location'
-      description: "If empty string, '-graphvizdot' argument will not be used."
+      title: 'Graphvis Dot Executable'
+      description: "Path to and including Dot executable. If empty string, '-graphvizdot' argument will not be used."
       type: 'string'
       default: ''
     zoomToFit:
