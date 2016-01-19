@@ -1,3 +1,7 @@
+# 0.11.2
+- Clarification of configuration names and descriptions
+- Fix for #10 Java Command: Setting default does not work
+
 # 0.11.1
 - Improve file path error handling (#8)
 
