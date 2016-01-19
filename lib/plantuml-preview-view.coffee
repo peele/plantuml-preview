@@ -270,7 +270,7 @@ class PlantumlPreviewView extends ScrollView
         return
 
     command = atom.config.get 'plantuml-preview.java'
-    if !fs.isFileSync command
+    if (command != 'java') and (!fs.isFileSync command)
       settingsError "#{command} is not a file.", 'Java Executable', command
       settingError = true
     jarLocation = atom.config.get 'plantuml-preview.jarLocation'
