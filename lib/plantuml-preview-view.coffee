@@ -106,7 +106,7 @@ class PlantumlPreviewView extends ScrollView
                 buffer = beautify_html buffer
               atom.clipboard.write(buffer)
             else
-              atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'."
+              atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'.", dismissable: true
         'plantuml-preview:open-file': (event) =>
           filename = $(event.target).closest('.open-file').attr('file')
           atom.workspace.open filename
@@ -316,11 +316,11 @@ class PlantumlPreviewView extends ScrollView
         if str.match ///jarfile///i
           settingsError str, 'PlantUML Jar', jarLocation
         else
-          atom.notifications.addError "plantuml-preview: stderr (logged to console)", detail: str
+          atom.notifications.addError "plantuml-preview: stderr (logged to console)", detail: str, dismissable: true
           console.log "plantuml-preview: stderr\n#{str}"
       if outputlog.length > 0
         str = outputlog.join('')
-        atom.notifications.addInfo "plantuml-preview: stdout (logged to console)", detail: str
+        atom.notifications.addInfo "plantuml-preview: stdout (logged to console)", detail: str, dismissable: true
         console.log "plantuml-preview: stdout\n#{str}"
     exit = (code) ->
       exitHandler imgFiles
