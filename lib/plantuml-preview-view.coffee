@@ -305,7 +305,7 @@ class PlantumlPreviewView extends ScrollView
     if format == 'svg'
       args.push '-tsvg'
     if dotLocation != ''
-        args.push '-graphvizdot', dotLocation
+      args.push '-graphvizdot', dotLocation
     args.push '-output', directory, filePath
 
     outputlog = []
@@ -334,9 +334,9 @@ class PlantumlPreviewView extends ScrollView
         str = outputlog.join('')
         atom.notifications.addInfo "plantuml-preview: stdout (logged to console)", detail: str, dismissable: true
         console.log "plantuml-preview: stdout\n#{str}"
+
     exit = (code) ->
       exitHandler imgFiles
-
     stdout = (output) ->
       outputlog.push output
     stderr = (output) ->
@@ -346,4 +346,5 @@ class PlantumlPreviewView extends ScrollView
       settingsError "#{command} not found.", 'Java Executable', command
 
     @removeImages()
+    console.log("#{command} #{args.join ' '}")
     new BufferedProcess({command, args, stdout, stderr, exit}).onWillThrowError errorHandler
