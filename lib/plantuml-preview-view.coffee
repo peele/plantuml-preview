@@ -96,15 +96,23 @@ class PlantumlPreviewView extends ScrollView
             when '.png'
               nativeimage ?= require 'native-image'
               clipboard ?= require 'clipboard'
-              buffer = fs.readFileSync(filename)
-              image = nativeimage.createFromBuffer(buffer)
-              clipboard.writeImage(image)
+              try
+                buffer = fs.readFileSync(filename)
+                image = nativeimage.createFromBuffer(buffer)
+                clipboard.writeImage(image)
+              catch err
+                atom.notifications.addError "plantuml-preview: Copy Failed", detail: "Error attempting to copy: #{filename}\nSee console for details.", dismissable: true
+                console.log err
             when '.svg'
-              buffer = fs.readFileSync(filename, @editor.getEncoding())
-              if atom.config.get 'plantuml-preview.beautifyXml'
-                beautify_html ?= require('js-beautify').html
-                buffer = beautify_html buffer
-              atom.clipboard.write(buffer)
+              try
+                buffer = fs.readFileSync(filename, @editor.getEncoding())
+                if atom.config.get 'plantuml-preview.beautifyXml'
+                  beautify_html ?= require('js-beautify').html
+                  buffer = beautify_html buffer
+                atom.clipboard.write(buffer)
+              catch err
+                atom.notifications.addError "plantuml-preview: Copy Failed", detail: "Error attempting to copy: #{filename}\nSee console for details.", dismissable: true
+                console.log err
             else
               atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'.", dismissable: true
         'plantuml-preview:open-file': (event) =>
@@ -304,12 +312,16 @@ class PlantumlPreviewView extends ScrollView
     errorlog = []
 
     exitHandler = (files) =>
-      if atom.config.get('plantuml-preview.beautifyXml') and (format == 'svg')
-        beautify_html ?= require('js-beautify').html
-        for file in imgFiles
-          buffer = fs.readFileSync(file, @editor.getEncoding())
-          buffer = beautify_html buffer
-          fs.writeFileSync(file, buffer, {encoding: @editor.getEncoding()})
+      for file in files
+        if fs.isFileSync file
+          if atom.config.get('plantuml-preview.beautifyXml') and (format == 'svg')
+            beautify_html ?= require('js-beautify').html
+            for file in imgFiles
+              buffer = fs.readFileSync(file, @editor.getEncoding())
+              buffer = beautify_html buffer
+              fs.writeFileSync(file, buffer, {encoding: @editor.getEncoding()})
+        else
+          console.log("File not found: #{file}")
       @addImages(files, Date.now())
       if errorlog.length > 0
         str = errorlog.join('')
