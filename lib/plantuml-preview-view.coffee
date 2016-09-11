@@ -301,6 +301,9 @@ class PlantumlPreviewView extends ScrollView
     if javaAdditional != ''
       args.push javaAdditional
     args.push '-jar', jarLocation
+    jarAdditional = atom.config.get('plantuml-preview.jarAdditional')
+    if jarAdditional != ''
+      args.push jarAdditional
     args.push '-charset', @editor.getEncoding()
     if format == 'svg'
       args.push '-tsvg'

@@ -54,6 +54,11 @@ module.exports =
       description: 'Such as -DPLANTUML_LIMIT_SIZE=8192 or -Xmx1024m'
       type: 'string'
       default: ''
+    jarAdditional:
+      title: 'Additional PlantUML Arguments'
+      description: 'Arguments are added immediately jar. Arguments specified in settings may override.'
+      type: 'string'
+      default: ''
     jarLocation:
       title: 'PlantUML Jar'
       description: 'Path to and including PlantUML Jar.'
