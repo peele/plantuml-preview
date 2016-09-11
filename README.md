@@ -39,8 +39,10 @@ Screenshots shown with: [language-plantuml](https://atom.io/packages/language-pl
   - *See [CHANGELOG](https://github.com/peele/plantuml-preview/blob/master/CHANGELOG.md), don't know if this feature is necessary*
 - `Display Filename Above UML Diagrams`: Default = true
 - `Graphvis Dot Executable`: Path of dot executable, [Graphviz](http://www.graphviz.org/)
+- `Additional PlantUML Arguments`: Free form text field for additional arguments to PlantUML. Added immediately after the `-jar` argument.
 - `PlantUML Jar`: Path of PlantUML jar
 - `Java Executable`: Path of Java executable, default = java
+- `Additional Java Arguments`: Free form text field for additional arguments for java call.
 - `Output Format`: Select png or svg output, default = svg
 - `Use Temp Directory`: Output diagrams to OS temporary directory, default = true
 - `Zoom To Fit`: The initial setting for new preview panes, default = true

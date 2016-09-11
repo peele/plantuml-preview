@@ -1,3 +1,9 @@
+# 0.12.0
+- All notifications are dismissible
+- Fix for uncaught file exceptions (#23, #22, #20, #18, #17, #16, #15, #13, #11)
+- Added `Additional Java Arguments` to configuration
+- Added `Additional PlantUML Arguments` to configuration
+
 # 0.11.2
 - Clarification of configuration names and descriptions
 - Fix for #10 Java Command: Setting default does not work
@@ -51,7 +57,7 @@
 - Minor refactor
 
 # 0.4.0
-- 'Zoom To Fit' default set to true
+- `Zoom To Fit` default set to true
 - Added 'Display Filename Above UML Diagrams', default true
 
 # 0.3.1

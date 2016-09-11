@@ -56,7 +56,7 @@ module.exports =
       default: ''
     jarAdditional:
       title: 'Additional PlantUML Arguments'
-      description: 'Arguments are added immediately jar. Arguments specified in settings may override.'
+      description: 'Arguments are added immediately after -jar. Arguments specified in settings may override.'
       type: 'string'
       default: ''
     jarLocation:
