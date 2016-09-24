@@ -2,7 +2,7 @@
   "name": "plantuml-preview",
   "main": "./lib/plantuml-preview",
   "version": "0.12.0",
-  "description": "Package for PlantUML integration. Feature rich, configuration heavy.",
+  "description": "Package for using PlantUML to create rendered uml diagrams and display. Toggle with shortcut. Updates on save. Handles multipage sequence diagrams. Feature rich, configuration heavy.",
   "keywords": [
     "plantuml",
     "uml",
