@@ -27,13 +27,19 @@
   '.plantuml-preview .uml-image': [
     {
       'label': 'Copy Diagram'
-      'command': 'core:copy'
+      'command': 'plantuml-preview:copy-image'
     }
   ]
   '.plantuml-preview .open-file': [
     {
       'label': 'Open Diagram'
       'command': 'plantuml-preview:open-file'
+    }
+  ]
+  '.plantuml-preview .copy-filename': [
+    {
+      'label': 'Copy Filename'
+      'command': 'plantuml-preview:copy-filename'
     }
   ]
 'menu': [

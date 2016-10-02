@@ -89,8 +89,7 @@ class PlantumlPreviewView extends ScrollView
         'plantuml-preview:zoom-fit': =>
           @zoomToFit.prop 'checked', !@zoomToFit.is(':checked')
           @setZoomFit @zoomToFit.is(':checked')
-        'core:copy': (event) =>
-          event.stopPropagation()
+        'plantuml-preview:copy-image': (event) =>
           filename = $(event.target).closest('.uml-image').attr('file')
           switch path.extname(filename)
             when '.png'
@@ -118,6 +117,9 @@ class PlantumlPreviewView extends ScrollView
         'plantuml-preview:open-file': (event) =>
           filename = $(event.target).closest('.open-file').attr('file')
           atom.workspace.open filename
+        'plantuml-preview:copy-filename': (event) =>
+          filename = $(event.target).closest('.copy-filename').attr('file')
+          atom.clipboard.write filename
 
       @renderUml()
 
@@ -145,7 +147,7 @@ class PlantumlPreviewView extends ScrollView
     for file in imgFiles
       if displayFilenames
         div = $('<div/>')
-          .attr('class', 'filename open-file')
+          .attr('class', 'filename open-file copy-filename')
           .attr('file', file)
           .text("#{file}")
         @container.append div
@@ -168,8 +170,7 @@ class PlantumlPreviewView extends ScrollView
 
           img.attr('width', imageInfo.scale * info.origWidth)
           img.attr('height', imageInfo.scale * info.origHeight)
-          img.addClass('uml-image')
-          img.addClass('open-file')
+          img.attr('class', 'uml-image open-file copy-filename')
           if zoomToFit
             img.addClass('zoomToFit')
 
