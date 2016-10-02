@@ -1,3 +1,7 @@
+# 0.12.1
+- Fix for #24 (more like a workaround, still looking into alternatives)
+- README and package description update
+
 # 0.12.0
 - All notifications are dismissible
 - Fix for uncaught file exceptions (#23, #22, #20, #18, #17, #16, #15, #13, #11)
