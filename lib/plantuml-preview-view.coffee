@@ -91,7 +91,8 @@ class PlantumlPreviewView extends ScrollView
           @setZoomFit @zoomToFit.is(':checked')
         'plantuml-preview:copy-image': (event) =>
           filename = $(event.target).closest('.uml-image').attr('file')
-          switch path.extname(filename)
+          ext = path.extname(filename)
+          switch ext
             when '.png'
               nativeimage ?= require 'native-image'
               clipboard ?= require 'clipboard'
@@ -114,10 +115,10 @@ class PlantumlPreviewView extends ScrollView
                 console.log err
             else
               atom.notifications.addError "plantuml-preview: Unsupported File Format", detail: "#{ext} is not currently supported by 'Copy Diagram'.", dismissable: true
-        'plantuml-preview:open-file': (event) =>
+        'plantuml-preview:open-file': (event) ->
           filename = $(event.target).closest('.open-file').attr('file')
           atom.workspace.open filename
-        'plantuml-preview:copy-filename': (event) =>
+        'plantuml-preview:copy-filename': (event) ->
           filename = $(event.target).closest('.copy-filename').attr('file')
           atom.clipboard.write filename
 
@@ -254,7 +255,7 @@ class PlantumlPreviewView extends ScrollView
     basename = path.basename(filePath, path.extname(filePath))
     directory = path.dirname(filePath)
     format = @outputFormat.val()
-    settingError = false;
+    settingError = false
 
     if @useTempDir.is(':checked')
       directory = path.join os.tmpdir(), 'plantuml-preview'
@@ -274,9 +275,9 @@ class PlantumlPreviewView extends ScrollView
         upToDate = false
         break
     if upToDate
-        @removeImages()
-        @addImages imgFiles, Date.now()
-        return
+      @removeImages()
+      @addImages imgFiles, Date.now()
+      return
 
     command = atom.config.get 'plantuml-preview.java'
     if (command != 'java') and (!fs.isFileSync command)

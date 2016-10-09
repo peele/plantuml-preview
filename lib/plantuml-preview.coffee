@@ -97,7 +97,7 @@ module.exports =
       default: true
 
   activate: ->
-    atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', => toggle()
+    atom.commands.add 'atom-workspace', 'plantuml-preview:toggle', -> toggle()
     @openerDisposable = atom.workspace.addOpener (uriToOpen) ->
       {protocol, host, pathname} = url.parse uriToOpen
       return unless protocol is 'plantuml-preview:'
