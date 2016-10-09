@@ -29,16 +29,16 @@
       'command': 'plantuml-preview:copy-image'
     }
   ]
-  '.plantuml-preview .open-file': [
-    {
-      'label': 'Open Diagram'
-      'command': 'plantuml-preview:open-file'
-    }
-  ]
   '.plantuml-preview .copy-filename': [
     {
       'label': 'Copy Filename'
       'command': 'plantuml-preview:copy-filename'
+    }
+  ]
+  '.plantuml-preview .open-file': [
+    {
+      'label': 'Open Diagram'
+      'command': 'plantuml-preview:open-file'
     }
   ]
 'menu': [
