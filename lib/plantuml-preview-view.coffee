@@ -321,10 +321,9 @@ class PlantumlPreviewView extends ScrollView
         if fs.isFileSync file
           if atom.config.get('plantuml-preview.beautifyXml') and (format == 'svg')
             beautify_html ?= require('js-beautify').html
-            for file in imgFiles
-              buffer = fs.readFileSync(file, @editor.getEncoding())
-              buffer = beautify_html buffer
-              fs.writeFileSync(file, buffer, {encoding: @editor.getEncoding()})
+            buffer = fs.readFileSync(file, @editor.getEncoding())
+            buffer = beautify_html buffer
+            fs.writeFileSync(file, buffer, {encoding: @editor.getEncoding()})
         else
           console.log("File not found: #{file}")
       @addImages(files, Date.now())

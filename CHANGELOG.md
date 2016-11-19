@@ -1,3 +1,6 @@
+# 0.12.2
+- Fix for #26. Remove accidental loop.
+
 # 0.12.1
 - Fix for #24 (more like a workaround, still looking into alternatives)
 - README and package description update
