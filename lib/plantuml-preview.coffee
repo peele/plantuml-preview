@@ -26,7 +26,7 @@ addPreviewForEditor = (editor) ->
     options =
       searchAllPanes: true
       split: 'right'
-    atom.workspace.open(uri, options).done (plantumlPreviewView) ->
+    atom.workspace.open(uri, options).then (plantumlPreviewView) ->
       if isPlantumlPreviewView(plantumlPreviewView)
         previousActivePane.activate()
   else
