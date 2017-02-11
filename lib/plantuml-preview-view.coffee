@@ -94,7 +94,7 @@ class PlantumlPreviewView extends ScrollView
           ext = path.extname(filename)
           switch ext
             when '.png'
-              nativeimage ?= require 'native-image'
+              nativeimage ?= require('electron').nativeImage
               clipboard ?= require 'clipboard'
               try
                 buffer = fs.readFileSync(filename)
