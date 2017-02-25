@@ -332,7 +332,6 @@ class PlantumlPreviewView extends ScrollView
         if str.match ///jarfile///i
           settingsError str, 'PlantUML Jar', jarLocation
         else
-          atom.notifications.addError "plantuml-preview: stderr (logged to console)", detail: str, dismissable: true
           console.log "plantuml-preview: stderr\n#{str}"
       if outputlog.length > 0
         str = outputlog.join('')
