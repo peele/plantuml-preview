@@ -298,7 +298,7 @@ class PlantumlPreviewView extends ScrollView
       @container.show
       return
 
-    args = []
+    args = ['-Djava.awt.headless=true']
     javaAdditional = atom.config.get('plantuml-preview.javaAdditional')
     if javaAdditional != ''
       args.push javaAdditional

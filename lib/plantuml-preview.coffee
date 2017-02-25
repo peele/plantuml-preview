@@ -51,7 +51,7 @@ module.exports =
       default: 'java'
     javaAdditional:
       title: 'Additional Java Arguments'
-      description: 'Such as -DPLANTUML_LIMIT_SIZE=8192 or -Xmx1024m'
+      description: 'Such as -DPLANTUML_LIMIT_SIZE=8192 or -Xmx1024m. -Djava.awt.headless=true arguement is included by default.'
       type: 'string'
       default: ''
     jarAdditional:
