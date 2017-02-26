@@ -1,7 +1,6 @@
 {$, ScrollView} = require 'atom-space-pen-views'
 {Disposable, CompositeDisposable, BufferedProcess} = require 'atom'
 clipboard = null
-nativeimage = null
 path = null
 fs = null
 os = null
@@ -94,12 +93,9 @@ class PlantumlPreviewView extends ScrollView
           ext = path.extname(filename)
           switch ext
             when '.png'
-              nativeimage ?= require('electron').nativeImage
-              clipboard ?= require 'clipboard'
+              clipboard ?= require('electron').clipboard
               try
-                buffer = fs.readFileSync(filename)
-                image = nativeimage.createFromBuffer(buffer)
-                clipboard.writeImage(image)
+                clipboard.writeImage(filename)
               catch err
                 atom.notifications.addError "plantuml-preview: Copy Failed", detail: "Error attempting to copy: #{filename}\nSee console for details.", dismissable: true
                 console.log err
