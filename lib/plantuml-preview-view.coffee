@@ -63,6 +63,17 @@ class PlantumlPreviewView extends ScrollView
       @on 'change', '#zoomToFit', ->
         checkHandler(@checked)
 
+      pan = false
+      @container.mousedown ->
+        pan = true
+      @container.mouseup ->
+        pan = false
+      @container.mouseleave ->
+        pan = false
+      @container.mousemove ->
+        if pan
+          console.log "move"
+
       saveHandler = =>
         @renderUml()
       @disposables.add @editor.getBuffer().onDidSave ->
@@ -153,6 +164,7 @@ class PlantumlPreviewView extends ScrollView
       img = $('<img/>')
         .attr('src', "#{file}?time=#{time}")
         .attr('file', file)
+        .attr('draggable', false)
         .load ->
           img = $(this)
           file = img.attr 'file'
