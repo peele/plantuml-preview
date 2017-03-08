@@ -67,6 +67,8 @@ class PlantumlPreviewView extends ScrollView
         @renderUml()
       @disposables.add @editor.getBuffer().onDidSave ->
         saveHandler()
+      @outputFormat.change ->
+        saveHandler()
 
       if atom.config.get 'plantuml-preview.bringFront'
         @disposables.add atom.workspace.onDidChangeActivePaneItem (item) =>
