@@ -202,7 +202,7 @@ class PlantumlPreviewView extends ScrollView
     filenames = []
     defaultFilename = path.join(directory, defaultName)
     defaultCount = 0
-    for uml in contents.split(///@enduml///i)
+    for uml in contents.split(///@end(?:uml|math|latex)///i)
       if uml.trim() == ''
         continue
 
@@ -210,7 +210,7 @@ class PlantumlPreviewView extends ScrollView
       currentExtension = defaultExtension
       pageCount = 1
 
-      filename = uml.match ///@startuml([^\n]*)\n///i
+      filename = uml.match ///@start(?:uml|math|latex)([^\n]*)\n///i
       if filename?
         filename = filename[1].trim()
         if filename != ''
