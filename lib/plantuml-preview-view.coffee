@@ -210,9 +210,9 @@ class PlantumlPreviewView extends ScrollView
       currentExtension = defaultExtension
       pageCount = 1
 
-      filename = uml.match ///@start(?:uml|math|latex)([^\n]*)\n///i
+      filename = uml.match ///@start(?:uml|math|latex)(\(id[^\s]*)?([^\n]*)\n///i
       if filename?
-        filename = filename[1].trim()
+        filename = filename[2].trim()
         if filename != ''
           if path.extname(filename)
             currentExtension = path.extname filename
